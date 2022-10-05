@@ -6,7 +6,7 @@
 
     <groupId>cn.rabig</groupId>
     <artifactId>SGU-Script</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <name>SGU-Script</name>
 
     <properties>
