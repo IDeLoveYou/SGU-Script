@@ -4,11 +4,13 @@ import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.SCPClient;
 import ch.ethz.ssh2.Session;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.map.TableMap;
 import cn.rabig.tools.model.ShellModel;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.LinkedHashMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author MoNo
@@ -127,17 +129,21 @@ public class ShellUtils {
      * @since 2022/9/13 23:43
      */
     public class execCommandList {
-        public LinkedHashMap<String, String> CommandList = new LinkedHashMap<>();
+        private final TableMap<String, String> CommandList = new TableMap<>();
 
         public execCommandList add(String command) {
-            CommandList.put(command, null);
+            CommandList.put(command, "");
+            return this;
+        }
+
+        public execCommandList add(String command,String errorMessage) {
+            CommandList.put(command, errorMessage);
             return this;
         }
 
         /**
          * 批量执行命令，但中间出现错误并不处理，继续执行
          *
-         * @return boolean
          * @author MoNo
          * @since 2022/9/14 0:04
          */
@@ -145,6 +151,25 @@ public class ShellUtils {
             CommandList.forEach((key, value) -> exec(key));
         }
 
+        /**
+         * 批量执行命令，但中间出现错误会重试五次，继续执行
+         * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean,java.lang.String>
+         * @since 2022/10/5 13:36
+         * @author MoNo
+         */
+        public SimpleEntry<Boolean, String> startWithCheck() {
+            AtomicReference<String> error = new AtomicReference<>("");
+            CommandList.forEach((key, value) -> {
+                for (int count = 0;count < 5;count++){
+                    if (exec(key).isSuccess()) {
+                        break;
+                    }else if (count == 4){
+                        error.set(error.get() + value + "\n");
+                    }
+                }
+            });
+            return error.get().isBlank() ? new SimpleEntry<>(true,"全部执行成功") : new SimpleEntry<>(false,error.get());
+        }
     }
 
 }
