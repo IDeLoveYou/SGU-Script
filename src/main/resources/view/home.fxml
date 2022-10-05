@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity"
+         minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE"
+         xmlns="http://javafx.com/javafx/8.0.171" fx:controller="cn.rabig.gui.controller.HomeController">
+    <Tab text="欢迎">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <TextArea editable="false" focusTraversable="false" layoutX="11.0" layoutY="14.0" prefHeight="309.0"
+                      prefWidth="577.0"
+                      text="&#10;SGU-Script是一款免费开源的路由器锐捷认证设置程序，本质是自动配置登录脚本&#10;&#10;主要是为了应对2022年韶关学院新上网认证，目前只支持搭载OpenWrt的路由器配置&#10;&#10;并且Openwrt需已安装curl或wget模块，未安装的设备请先自行安装该模块&#10;&#10;您也可以自行克隆项目，并添加对其他系统的支持&#10;&#10;SGU-Script会实时监控您的网络状况，在掉线的时候进行自动重连，但并不能阻止共享上网的检查&#10;&#10;由于阻止共享上网的监测较为复杂，需您自行编译固件，并添加相应的插件支持&#10;&#10;SGU-Script只为开发学习研发，若您对该程序有异议，可至github项目提起issue&#10;&#10;若您使用本程序则默认遵循MIT license，祝您使用愉快"/>
+            <Button layoutX="491.0" layoutY="334.0" mnemonicParsing="false" onAction="#click" prefHeight="23.0"
+                    prefWidth="81.0" text="继续"/>
+        </AnchorPane>
+    </Tab>
+    <Tab fx:id="install" text="安装"/>
+    <Tab fx:id="uninstall" text="卸载/日志"/>
+</TabPane>

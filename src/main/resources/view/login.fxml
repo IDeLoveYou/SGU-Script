@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="loginPane" minHeight="0.0" minWidth="0.0" onKeyPressed="#enter" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cn.rabig.gui.controller.LoginController">
+    <Label layoutX="266.0" layoutY="45.0" text="SSH连接">
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+    <GridPane layoutX="50.0" layoutY="80.0" prefHeight="189.0" prefWidth="504.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="168.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="167.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="167.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="257.0" text="主机（Host）"
+               textAlignment="CENTER"/>
+        <Label alignment="CENTER" prefHeight="230.0" prefWidth="430.0" text="端口（Port）" GridPane.rowIndex="1"/>
+        <Label alignment="CENTER" prefHeight="15.0" prefWidth="213.0" text="用户名（Username）" GridPane.rowIndex="2"/>
+        <Label alignment="CENTER" prefHeight="230.0" prefWidth="430.0" text="密码（Password）" GridPane.rowIndex="3"/>
+        <TextField fx:id="host" promptText="192.168.1.1" GridPane.columnIndex="1"/>
+        <TextField fx:id="port" promptText="22" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="username" prefHeight="23.0" prefWidth="91.0" promptText="root" GridPane.columnIndex="1"
+                   GridPane.rowIndex="2"/>
+        <PasswordField fx:id="password" promptText="password" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label fx:id="hostInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="227.0"
+               textFill="#da1919" GridPane.columnIndex="2"/>
+        <Label fx:id="portInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="259.0"
+               textAlignment="CENTER" textFill="#e11717" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <Label fx:id="userNameInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="227.0"
+               textFill="#da1919" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Label fx:id="passWordInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="227.0"
+               textFill="#da1919" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+    </GridPane>
+    <Button fx:id="loginButton" layoutX="270.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#login"
+            prefHeight="23.0" prefWidth="77.0" text="登录"/>
+    <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="407.0" layoutY="304.0" prefHeight="15.0"
+           prefWidth="118.0" textFill="#da1919"/>
+</AnchorPane>
