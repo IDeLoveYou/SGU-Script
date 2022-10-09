@@ -136,7 +136,7 @@ public class ShellUtils {
             return this;
         }
 
-        public execCommandList add(String command,String errorMessage) {
+        public execCommandList add(String command, String errorMessage) {
             CommandList.put(command, errorMessage);
             return this;
         }
@@ -153,22 +153,23 @@ public class ShellUtils {
 
         /**
          * 批量执行命令，但中间出现错误会重试五次，继续执行
-         * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean,java.lang.String>
-         * @since 2022/10/5 13:36
+         *
+         * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
          * @author MoNo
+         * @since 2022/10/5 13:36
          */
         public SimpleEntry<Boolean, String> startWithCheck() {
             AtomicReference<String> error = new AtomicReference<>("");
             CommandList.forEach((key, value) -> {
-                for (int count = 0;count < 5;count++){
+                for (int count = 0; count < 5; count++) {
                     if (exec(key).isSuccess()) {
                         break;
-                    }else if (count == 4){
+                    } else if (count == 4) {
                         error.set(error.get() + value + "\n");
                     }
                 }
             });
-            return error.get().isBlank() ? new SimpleEntry<>(true,"全部执行成功") : new SimpleEntry<>(false,error.get());
+            return error.get().isBlank() ? new SimpleEntry<>(true, "全部执行成功") : new SimpleEntry<>(false, error.get());
         }
     }
 

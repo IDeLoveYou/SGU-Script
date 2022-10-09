@@ -100,8 +100,8 @@ public class Openwrt implements BaseSystem {
         }
         //启动脚本
         SimpleEntry<Boolean, String> message = shellUtils.execCommandList()
-                .add("/etc/init.d/sgu_script enable","添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
-                .add("/etc/init.d/sgu_script restart","脚本启动失败，请重启路由器或使用命令【/etc/init.d/sgu_script restart】手动启动脚本")
+                .add("/etc/init.d/sgu_script enable", "添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
+                .add("/etc/init.d/sgu_script restart", "脚本启动失败，请重启路由器或使用命令【/etc/init.d/sgu_script restart】手动启动脚本")
                 .startWithCheck();
         return message.getKey() ? new SimpleEntry<>(true, "安装成功") : message;
     }
