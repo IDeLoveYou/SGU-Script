@@ -21,7 +21,7 @@ login() {
         isNight=$(echo "$result" | grep "运营商用户认证失败")
         if [ -n "$isNight" ]; then
           echo "$1:$result(可能原因有：夜间禁止上网信息，或者账号未开通)" >>$LOG_FILE #输出错误日志
-          logger -t SGU-Script "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
+          logger -t SGU-Script "$result(可能原因有：服务器抽风，夜间禁止上网信息，或者账号未开通)"
           sleep 60 #休息1分钟
         elif [ "$result" = "用户不存在,请输入正确的用户名!" ] || [ "$result" = "密码不匹配,请输入正确的密码!" ]; then
           echo "$1:$result" >>$LOG_FILE #输出错误日志
