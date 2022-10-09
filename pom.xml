@@ -26,8 +26,8 @@
         <!-- hutool工具包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.8.7</version>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.8</version>
         </dependency>
         <!-- lombok表达式 -->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
