@@ -17,7 +17,7 @@ login() {
       #不为空有错误信息
       if [ -n "$result" ]; then
         #是否是夜间禁止上网信息，或者账号未开通
-        isILogin=$(echo "$result" | grep "已经在线")
+        isILogin=$(echo "$result" | grep "在线")
         isNight=$(echo "$result" | grep "运营商用户认证失败")
         if [ -n "$isNight" ]; then
           echo "$1:$result(可能原因有：夜间禁止上网信息，或者账号未开通)" >>$LOG_FILE #输出错误日志
