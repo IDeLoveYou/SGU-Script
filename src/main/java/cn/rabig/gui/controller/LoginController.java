@@ -13,7 +13,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -56,6 +58,13 @@ public class LoginController implements Initializable {
         checkForm();
     }
 
+    /**
+     * 检查表单数据
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:40
+     */
     private void checkForm() {
         //检查主机号
         checkHost();
@@ -67,6 +76,13 @@ public class LoginController implements Initializable {
         checkPassWord();
     }
 
+    /**
+     * 初始化框体提示信息
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:41
+     */
     public void initTips() {
         host.setTooltip(new Tooltip("请输入路由器的主机地址"));
         port.setTooltip(new Tooltip("请输入SSH端口"));
@@ -74,6 +90,13 @@ public class LoginController implements Initializable {
         password.setTooltip(new Tooltip("请输入密码"));
     }
 
+    /**
+     * 检查主机号
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:41
+     */
     public void checkHost() {
         host.focusedProperty().addListener((observable, oldValue, newValue) -> {
             infoFlag.put("host", false);
@@ -88,6 +111,13 @@ public class LoginController implements Initializable {
         });
     }
 
+    /**
+     * 检查端口号
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:41
+     */
     public void checkPort() {
         port.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 5 || !newValue.matches("\\d*")) {
@@ -107,6 +137,13 @@ public class LoginController implements Initializable {
         });
     }
 
+    /**
+     * 检查用户名
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:41
+     */
     public void checkUserName() {
         username.focusedProperty().addListener((observable, oldValue, newValue) -> {
             infoFlag.put("username", false);
@@ -121,6 +158,13 @@ public class LoginController implements Initializable {
         });
     }
 
+    /**
+     * 检查密码
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:41
+     */
     public void checkPassWord() {
         password.focusedProperty().addListener((observable, oldValue, newValue) -> {
             infoFlag.put("password", false);
@@ -140,7 +184,7 @@ public class LoginController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/7 20:51
+     * @since 2022/10/12 21:42
      */
     public void waitCheck() {
         Alert check = GuiUtils.setAlert("提示", "检测路由器环境中", 200, 80);
@@ -166,7 +210,7 @@ public class LoginController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/7 19:36
+     * @since 2022/10/12 21:42
      */
     public void chooseSystem() {
         Alert success = GuiUtils.setAlert("登录成功", "请选择路由器固件，并点击下一步继续", 350, 80);
@@ -199,7 +243,7 @@ public class LoginController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/7 12:05
+     * @since 2022/10/12 21:42
      */
     public void showAlert() {
         Alert login = GuiUtils.setAlert("提示", "登录中", 200, 80);
@@ -231,13 +275,12 @@ public class LoginController implements Initializable {
         }
     }
 
-
     /**
      * 登录按钮点击事件
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 20:43
+     * @since 2022/10/12 21:42
      */
     public void login() {
         //检查所有参数设置无误
@@ -262,7 +305,7 @@ public class LoginController implements Initializable {
      * @param keyEvent [javafx.scene.input.KeyEvent]
      * @return void
      * @author MoNo
-     * @since 2022/9/8 20:42
+     * @since 2022/10/12 21:43
      */
     public void enter(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {

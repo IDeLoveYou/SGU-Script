@@ -27,11 +27,10 @@ public class UninstallController implements Initializable {
     /**
      * 页面加载完成后执行
      *
-     * @param location  [java.net.URL]
-     * @param resources [java.util.ResourceBundle]
-     * @return void
-     * @author MoNo
-     * @since 2022/9/9 11:46
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,6 +44,13 @@ public class UninstallController implements Initializable {
         }, 0, 5000);
     }
 
+    /**
+     * 初始化界面信息
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:45
+     */
     private void initView() {
         boolean isInstall = ReflectUtil.invoke(system, "isInstall");
         //设置卸载按钮
@@ -63,6 +69,13 @@ public class UninstallController implements Initializable {
         }
     }
 
+    /**
+     * 执行卸载程序
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:45
+     */
     public void uninstall() {
         Alert uninstallAlert = GuiUtils.setAlert("提示", "正在卸载", 200, 80);
         uninstallAlert.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
@@ -83,6 +96,13 @@ public class UninstallController implements Initializable {
         }).start();
     }
 
+    /**
+     * 添加上一步的点击事件
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:46
+     */
     @SuppressWarnings("DuplicatedCode")
     public void previous() {
         Alert confirm = GuiUtils.whetherAlert("是否退出登录");
@@ -95,5 +115,4 @@ public class UninstallController implements Initializable {
         });
         confirm.showAndWait();
     }
-
 }

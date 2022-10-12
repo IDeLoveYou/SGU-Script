@@ -11,6 +11,7 @@ import lombok.NonNull;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 /**
  * @author MoNo
@@ -25,6 +26,17 @@ public class ShellUtils {
     private boolean isSuccess = false;
     private Connection connection;
 
+    /**
+     * 创建SSH连接
+     *
+     * @param host     [java.lang.String]
+     * @param port     [java.lang.String]
+     * @param username [java.lang.String]
+     * @param password [java.lang.String]
+     * @return
+     * @author MoNo
+     * @since 2022/10/12 21:53
+     */
     public ShellUtils(@NonNull String host, @NonNull String port, @NonNull String username, @NonNull String password) {
         this.host = host;
         this.port = port;
@@ -35,6 +47,10 @@ public class ShellUtils {
 
     /**
      * 启动连接
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:53
      */
     private void start() {
         try {
@@ -53,6 +69,10 @@ public class ShellUtils {
 
     /**
      * 关闭连接
+     *
+     * @return void
+     * @author MoNo
+     * @since 2022/10/12 21:53
      */
     public void close() {
         if (connection != null) {
@@ -64,8 +84,10 @@ public class ShellUtils {
     /**
      * 执行远程命令
      *
-     * @param command 执行的命令
-     * @throws Exception
+     * @param command [java.lang.String]
+     * @return cn.rabig.tools.model.ShellModel
+     * @author MoNo
+     * @since 2022/10/12 21:53
      */
     public ShellModel exec(@NonNull String command) {
         Session session = null;
@@ -91,9 +113,13 @@ public class ShellUtils {
     /**
      * 输入流上传
      *
-     * @param localFile             输入流
-     * @param remoteFileName        远程文件名称
-     * @param remoteTargetDirectory 上传的目录
+     * @param localFile             [byte]
+     * @param remoteFileName        [java.lang.String]
+     * @param remoteTargetDirectory [java.lang.String]
+     * @param permissions           [java.lang.String]
+     * @return boolean
+     * @author MoNo
+     * @since 2022/10/12 21:53
      */
     public boolean scpPutFile(byte @NonNull [] localFile,
                               @NonNull String remoteFileName,
@@ -114,28 +140,46 @@ public class ShellUtils {
      *
      * @return cn.rabig.tools.utils.ShellUtils.execCommandList
      * @author MoNo
-     * @since 2022/9/14 0:01
+     * @since 2022/10/12 21:54
      */
     public execCommandList execCommandList() {
         return new execCommandList();
     }
 
-
     /**
-     * 批量执行命令
+     * 批量执行命令子类
      *
      * @author MoNo
-     * @return
-     * @since 2022/9/13 23:43
+     * @since 2022/10/12 21:54
      */
     public class execCommandList {
+        /**
+         * 初始化执行命令链
+         */
         private final TableMap<String, String> CommandList = new TableMap<>();
 
+        /**
+         * 添加执行命令链
+         *
+         * @param command [java.lang.String]
+         * @return cn.rabig.tools.utils.ShellUtils.execCommandList
+         * @author MoNo
+         * @since 2022/10/12 21:54
+         */
         public execCommandList add(String command) {
             CommandList.put(command, "");
             return this;
         }
 
+        /**
+         * 添加执行命令链
+         *
+         * @param command      [java.lang.String]
+         * @param errorMessage [java.lang.String]
+         * @return cn.rabig.tools.utils.ShellUtils.execCommandList
+         * @author MoNo
+         * @since 2022/10/12 21:55
+         */
         public execCommandList add(String command, String errorMessage) {
             CommandList.put(command, errorMessage);
             return this;
@@ -144,33 +188,30 @@ public class ShellUtils {
         /**
          * 批量执行命令，但中间出现错误并不处理，继续执行
          *
+         * @return void
          * @author MoNo
-         * @since 2022/9/14 0:04
+         * @since 2022/10/12 21:55
          */
         public void startWithoutCheck() {
             CommandList.forEach((key, value) -> exec(key));
         }
 
         /**
-         * 批量执行命令，但中间出现错误会重试五次，继续执行
+         * 批量执行命令，但中间出现错误会重试，继续执行
          *
+         * @param errorCount [int]
          * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
          * @author MoNo
-         * @since 2022/10/5 13:36
+         * @since 2022/10/12 21:55
          */
-        public SimpleEntry<Boolean, String> startWithCheck() {
+        public SimpleEntry<Boolean, String> startWithCheck(int errorCount) {
             AtomicReference<String> error = new AtomicReference<>("");
             CommandList.forEach((key, value) -> {
-                for (int count = 0; count < 5; count++) {
-                    if (exec(key).isSuccess()) {
-                        break;
-                    } else if (count == 4) {
-                        error.set(error.get() + value + "\n");
-                    }
+                if (IntStream.rangeClosed(1, errorCount).noneMatch(i -> exec(key).isSuccess())) {
+                    error.set(error.get() + value + "\n");
                 }
             });
             return error.get().isBlank() ? new SimpleEntry<>(true, "全部执行成功") : new SimpleEntry<>(false, error.get());
         }
     }
-
 }

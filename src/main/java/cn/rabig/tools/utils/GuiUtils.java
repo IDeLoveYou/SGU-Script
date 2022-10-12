@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * @since 2022/9/8 20:03
  **/
 public class GuiUtils {
-
     /**
      * 自定义弹窗
      *
@@ -22,7 +21,7 @@ public class GuiUtils {
      * @param Height  [int]
      * @return javafx.scene.control.Alert
      * @author MoNo
-     * @since 2022/9/7 17:23
+     * @since 2022/10/12 21:52
      */
     public static Alert setAlert(String title, String content, int Width, int Height) {
         Alert alert = new Alert(Alert.AlertType.NONE, content);
@@ -43,7 +42,7 @@ public class GuiUtils {
      * @param message [java.lang.String]
      * @return javafx.scene.control.Alert
      * @author MoNo
-     * @since 2022/9/8 21:57
+     * @since 2022/10/12 21:56
      */
     public static Alert whetherAlert(String message) {
         Alert confirm = setAlert("提示", message, 350, 100);

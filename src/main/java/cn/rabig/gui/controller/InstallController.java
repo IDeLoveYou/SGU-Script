@@ -1,7 +1,5 @@
 package cn.rabig.gui.controller;
 
-import java.util.AbstractMap.SimpleEntry;
-
 import cn.hutool.core.util.ReflectUtil;
 import cn.rabig.tools.utils.CommonUtils;
 import cn.rabig.tools.utils.GuiUtils;
@@ -13,7 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -37,7 +35,6 @@ public class InstallController implements Initializable {
     public AnchorPane installPane;
     public Button installButton;
     private Object system;
-    private AbstractMap.SimpleEntry<Boolean, String> check;
     private ToggleGroup toggleGroup;
     private final Map<String, Boolean> infoFlag;
 
@@ -70,7 +67,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 19:31
+     * @since 2022/10/12 21:37
      */
     private void checkForm() {
         //检查宽带账号
@@ -86,7 +83,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 19:31
+     * @since 2022/10/12 21:37
      */
     private void checkIp() {
         infoFlag.put("ip", false);
@@ -107,7 +104,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 19:31
+     * @since 2022/10/12 21:37
      */
     private void checkPassword() {
         infoFlag.put("password", false);
@@ -128,7 +125,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 19:31
+     * @since 2022/10/12 21:37
      */
     private void checkUsername() {
         infoFlag.put("username", false);
@@ -144,13 +141,12 @@ public class InstallController implements Initializable {
         });
     }
 
-
     /**
      * 初始化输入提示
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:06
+     * @since 2022/10/12 21:38
      */
     public void initTips() {
         curl.setTooltip(new Tooltip("是否支持使用curl登录"));
@@ -161,17 +157,16 @@ public class InstallController implements Initializable {
         ip.setTooltip(new Tooltip("请从公众号查询"));
     }
 
-
     /**
      * 通过反射执行路由器检查程序
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:04
+     * @since 2022/10/12 21:38
      */
     private void initCheckInfo() {
         system = ReflectUtil.newInstance(CommonUtils.getClassForName("cn.rabig.cli.controller." + LoginController.systemInfo), LoginController.shellUtils);
-        check = ReflectUtil.invoke(system, "check");
+        ReflectUtil.invoke(system, "check");
     }
 
     /**
@@ -179,7 +174,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:04
+     * @since 2022/10/12 21:38
      */
     private void initView() {
         toggleGroup = new ToggleGroup();
@@ -199,7 +194,7 @@ public class InstallController implements Initializable {
      * @param enable      [boolean]
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:04
+     * @since 2022/10/12 21:38
      */
     private void initRadioButton(RadioButton radioButton, boolean enable) {
         if (enable) {
@@ -216,7 +211,7 @@ public class InstallController implements Initializable {
      * @param system [java.lang.Object]
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:31
+     * @since 2022/10/12 21:39
      */
     private void initAndInstall(Object system) {
         Alert confirm = GuiUtils.whetherAlert("是否开始安装");
@@ -247,13 +242,14 @@ public class InstallController implements Initializable {
     }
 
     /**
-     * 提示是否能够安装
+     * 提示安装信息
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 17:36
+     * @since 2022/10/12 21:39
      */
     public void confirmAndStart() {
+        SimpleEntry<Boolean, String> check = ReflectUtil.invoke(system, "check");
         Alert confirmInfo = GuiUtils.setAlert("提示", check.getValue(), 350, 120);
         if (check.getKey()) {
             //可以安装，并打印提示信息
@@ -280,7 +276,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 19:33
+     * @since 2022/10/12 21:39
      */
     public void install() {
         //检查所有参数设置无误
@@ -304,7 +300,7 @@ public class InstallController implements Initializable {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/8 20:04
+     * @since 2022/10/12 21:39
      */
     @SuppressWarnings("DuplicatedCode")
     public void previous() {
@@ -325,7 +321,7 @@ public class InstallController implements Initializable {
      * @param keyEvent [javafx.scene.input.KeyEvent]
      * @return void
      * @author MoNo
-     * @since 2022/9/8 20:42
+     * @since 2022/10/12 21:40
      */
     public void enter(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -334,5 +330,3 @@ public class InstallController implements Initializable {
         }
     }
 }
-
-

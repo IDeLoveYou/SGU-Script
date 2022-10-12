@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class GuiApp extends Application {
-
     @Override
     public void start(Stage stage) {
         stage.setOnCloseRequest(event -> System.exit(0));
@@ -25,9 +24,7 @@ public class GuiApp extends Application {
         stage.show();
     }
 
-
     public static void main(String[] args) {
         launch();
     }
-
 }

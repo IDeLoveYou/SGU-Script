@@ -16,6 +16,11 @@ public class Padavan implements BaseSystem {
     }
 
     @Override
+    public boolean isInstall() {
+        return false;
+    }
+
+    @Override
     public SimpleEntry<Boolean, String> install(String username, String password, String ip, String mode) {
         return null;
     }
@@ -23,11 +28,6 @@ public class Padavan implements BaseSystem {
     @Override
     public SimpleEntry<Boolean, String> uninstall() {
         return null;
-    }
-
-    @Override
-    public boolean isInstall() {
-        return false;
     }
 
     @Override

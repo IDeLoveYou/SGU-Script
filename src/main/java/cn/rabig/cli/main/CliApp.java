@@ -13,9 +13,7 @@ import java.util.AbstractMap.SimpleEntry;
  * @since 2022/8/29 16:27
  **/
 public class CliApp {
-
     private static String mode;
-
 
     /**
      * 初始化账号信息并开始安装
@@ -23,7 +21,7 @@ public class CliApp {
      * @param system [java.lang.Object]
      * @return void
      * @author MoNo
-     * @since 2022/9/7 22:26
+     * @since 2022/10/12 21:34
      */
     public static void initAndInstall(Object system) {
         boolean checkCurl = (boolean) ReflectUtil.getFieldValue(system, "checkCurl");
@@ -58,7 +56,7 @@ public class CliApp {
      * @param system [java.lang.Object]
      * @return void
      * @author MoNo
-     * @since 2022/9/7 22:25
+     * @since 2022/10/12 21:35
      */
     public static void confirmAndStart(Object system) {
         CommonUtils.log("""
@@ -77,7 +75,7 @@ public class CliApp {
      * @param system [java.lang.Object]
      * @return void
      * @author MoNo
-     * @since 2022/9/7 21:34
+     * @since 2022/10/12 21:35
      */
     public static void manageMode(Object system) {
         switch (mode) {
@@ -111,7 +109,7 @@ public class CliApp {
      *
      * @return cn.rabig.tools.utils.ShellUtils
      * @author MoNo
-     * @since 2022/9/7 21:33
+     * @since 2022/10/12 21:35
      */
     public static ShellUtils verifySsh() {
         CommonUtils.log("请输入路由器host（默认为：192.168.1.1）");
@@ -137,7 +135,7 @@ public class CliApp {
      *
      * @return void
      * @author MoNo
-     * @since 2022/9/7 21:32
+     * @since 2022/10/12 21:35
      */
     public static void chooseSystem() {
         StringBuilder message = new StringBuilder("请输入路由器系统：");
@@ -157,7 +155,7 @@ public class CliApp {
      * @param args [java.lang.String]
      * @return void
      * @author MoNo
-     * @since 2022/9/7 21:31
+     * @since 2022/10/12 21:36
      */
     public static void main(String[] args) {
         CommonUtils.log("""

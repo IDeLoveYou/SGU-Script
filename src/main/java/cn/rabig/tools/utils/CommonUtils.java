@@ -8,7 +8,6 @@ import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
 
-
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,11 +19,26 @@ import java.util.stream.IntStream;
  * @since 2022/9/4 18:53
  **/
 public class CommonUtils {
-
+    /**
+     * 打印日志
+     *
+     * @param str [java.lang.String]
+     * @return void
+     * @since 2022/10/12 22:11
+     * @author MoNo
+     */
     public static void log(String str) {
         Console.log(str);
     }
 
+    /**
+     * 打印错误日志
+     *
+     * @param str [java.lang.String]
+     * @return void
+     * @since 2022/10/12 22:11
+     * @author MoNo
+     */
     public static void error(String str) {
         Console.error(str);
     }
@@ -32,9 +46,10 @@ public class CommonUtils {
     /**
      * 统一处理线程睡眠异常
      *
+     * @param time [int]
      * @return void
      * @author MoNo
-     * @since 2022/8/17 20:26
+     * @since 2022/10/12 21:50
      */
     public static void sleep(int time) {
         try {
@@ -49,7 +64,7 @@ public class CommonUtils {
      *
      * @return void
      * @author MoNo
-     * @since 2022/8/17 20:11
+     * @since 2022/10/12 21:50
      */
     public static void exitCli() {
         CommonUtils.printProgressBar(10, "脚本10s后退出");
@@ -62,7 +77,8 @@ public class CommonUtils {
      * @param time [int]
      * @param info [java.lang.String]
      * @return void
-     * @since 2022/8/25 23:03
+     * @author MoNo
+     * @since 2022/10/12 21:50
      */
     public static void printProgressBar(int time, String info) {
         ProgressBarBuilder pbb = new ProgressBarBuilder()
@@ -78,7 +94,7 @@ public class CommonUtils {
      * @param fxml [java.lang.String]
      * @return javafx.scene.Parent
      * @author MoNo
-     * @since 2022/9/3 21:31
+     * @since 2022/10/12 21:51
      */
     public static Parent loadFXML(String fxml) {
         FXMLLoader fxmlLoader;
@@ -97,7 +113,7 @@ public class CommonUtils {
      *
      * @return java.lang.String
      * @author MoNo
-     * @since 2022/9/4 23:07
+     * @since 2022/10/12 21:51
      */
     public static String scanner() {
         String input;
@@ -113,13 +129,13 @@ public class CommonUtils {
         return input;
     }
 
-
     /**
      * 统一处理范围输入
      *
+     * @param optionCount [int]
      * @return int
      * @author MoNo
-     * @since 2022/9/7 17:04
+     * @since 2022/10/12 21:51
      */
     public static int scannerOption(int optionCount) {
         int option;
@@ -138,8 +154,10 @@ public class CommonUtils {
     /**
      * 校验ip
      *
-     * @param ip
-     * @return
+     * @param ip [java.lang.String]
+     * @return boolean
+     * @author MoNo
+     * @since 2022/10/12 21:51
      */
     public static boolean checkIp(String ip) {
         String pattern = "((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}";
@@ -154,7 +172,7 @@ public class CommonUtils {
      * @param className [java.lang.String]
      * @return java.lang.Class<?>
      * @author MoNo
-     * @since 2022/9/7 21:12
+     * @since 2022/10/12 21:51
      */
     public static Class<?> getClassForName(String className) {
         Class<?> aClass = null;
@@ -165,5 +183,4 @@ public class CommonUtils {
         }
         return aClass;
     }
-
 }

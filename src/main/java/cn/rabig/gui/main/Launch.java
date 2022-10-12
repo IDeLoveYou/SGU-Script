@@ -7,7 +7,6 @@ import javafx.application.Application;
  * @since 2022/9/4 18:09
  **/
 public class Launch {
-
     /**
      * javafx应用程序需要添加额外参数指定javafx-sdk路径才能运行
      * 于是我们通过非继承Application类的的方法来调用launch()方法

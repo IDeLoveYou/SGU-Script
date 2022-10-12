@@ -10,14 +10,13 @@ import java.io.File;
  * @since 2022/9/7 20:59
  **/
 public class ManageException {
-
     /**
      * 统一异常处理
      *
      * @param e [java.lang.Exception]
      * @return void
      * @author MoNo
-     * @since 2022/9/7 21:00
+     * @since 2022/10/12 21:56
      */
     public static void throwException(Exception e) {
         String error = "程序出现错误：" + e.getMessage();

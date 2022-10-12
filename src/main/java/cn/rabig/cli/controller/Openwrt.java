@@ -23,12 +23,11 @@ public class Openwrt implements BaseSystem {
     }
 
     /**
-     * 检查路由器环境
-     * 返回能否安装，
+     * 检查路由器环境，返回安装信息
      *
-     * @return java.lang.String
+     * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
-     * @since 2022/9/6 12:57
+     * @since 2022/10/12 21:30
      */
     @Override
     public SimpleEntry<Boolean, String> check() {
@@ -58,7 +57,7 @@ public class Openwrt implements BaseSystem {
      *
      * @return boolean
      * @author MoNo
-     * @since 2022/9/9 13:11
+     * @since 2022/10/12 21:30
      */
     @Override
     public boolean isInstall() {
@@ -68,50 +67,51 @@ public class Openwrt implements BaseSystem {
     /**
      * 执行安装命令
      *
-     * @return java.lang.String
+     * @param username [java.lang.String]
+     * @param password [java.lang.String]
+     * @param ip       [java.lang.String]
+     * @param mode     [java.lang.String]
+     * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
-     * @since 2022/9/6 12:56
+     * @since 2022/10/12 21:30
      */
     @Override
     public SimpleEntry<Boolean, String> install(String username, String password, String ip, String mode) {
         //删除旧脚本
-        if (isInstall()) {
-            uninstall();
-        }
-        //配置UA2F
-        if (checkUA2F) {
-            shellUtils.execCommandList()
-                    .add("echo '# Modify the ttl.' >>/etc/firewall.user")//配置防火墙
-                    .add("echo 'iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64' >>/etc/firewall.user")
-                    .add("/etc/init.d/firewall reload")
-                    .add("uci set ua2f.enabled.enabled=1")//配置ua2f
-                    .add("uci set ua2f.firewall.handle_fw=1")
-                    .add("uci set ua2f.firewall.handle_intranet=1")
-                    .add("uci set ua2f.firewall.handle_tls=1")
-                    .add("uci set ua2f.firewall.handle_mmtls=1")
-                    .add("uci commit ua2f")
-                    .add("service ua2f enable")
-                    .add("/etc/init.d/ua2f start")
-                    .startWithoutCheck();
+        if (isInstall() && !uninstall().getKey()) {
+            return new SimpleEntry<>(false, "旧脚本删除失败");
         }
         //上传脚本
         if (!shellUtils.scpPutFile(FileUtils.writeSGUScript(username, password, ip, mode), "sgu_script", "/etc/init.d/", "0755")) {
             return new SimpleEntry<>(false, "脚本上传失败");
         }
-        //启动脚本
-        SimpleEntry<Boolean, String> message = shellUtils.execCommandList()
-                .add("/etc/init.d/sgu_script enable", "添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
-                .add("/etc/init.d/sgu_script restart", "脚本启动失败，请重启路由器或使用命令【/etc/init.d/sgu_script restart】手动启动脚本")
-                .startWithCheck();
+        //初始化执行命令链
+        ShellUtils.execCommandList CommandList = shellUtils.execCommandList();
+        //配置UA2F
+        if (checkUA2F) {
+            CommandList.add("uci set ua2f.enabled.enabled=1", "UA2F开机自启失败")
+                    .add("uci set ua2f.firewall.handle_fw=1", "UA2F（默认开启）自动配置防火墙失败")
+                    .add("uci set ua2f.firewall.handle_intranet=1", "UA2F处理内网流量（默认开启），防止在访问内网服务时被检测到失败")
+                    .add("uci set ua2f.firewall.handle_tls=1", "UA2F处理 443 端口流量（默认关闭）失败")
+                    .add("uci set ua2f.firewall.handle_mmtls=0", "UA2F处理微信的 mmtls（默认开启）（建议关闭）失败")
+                    .add("uci commit ua2f", "保存UA2F设置");
+        }
+        //添加脚本自启和运行脚本
+        CommandList.add("/etc/init.d/sgu_script enable", "添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
+                .add("/etc/init.d/sgu_script restart", "脚本启动失败，请重启路由器或使用命令【/etc/init.d/sgu_script restart】手动启动脚本");
+        //执行命令链安装SGU—Script
+        SimpleEntry<Boolean, String> message = CommandList.startWithCheck(5);
+        //启动UA2F
+        shellUtils.exec("/etc/init.d/ua2f start");
         return message.getKey() ? new SimpleEntry<>(true, "安装成功") : message;
     }
 
     /**
      * 执行卸载命令
      *
-     * @return java.lang.String
+     * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
-     * @since 2022/9/6 12:56
+     * @since 2022/10/12 21:30
      */
     @Override
     public SimpleEntry<Boolean, String> uninstall() {
@@ -119,25 +119,24 @@ public class Openwrt implements BaseSystem {
             return new SimpleEntry<>(false, "尚未安装SGU-Script");
         }
         shellUtils.execCommandList()
-                .add("/etc/init.d/sgu_script stop")
+                .add("/etc/init.d/sgu_script stop")//停止脚本
                 .add("/etc/init.d/sgu_script disable")//删除脚本自启动
-                .add("rm -f /etc/init.d/sgu_script")//删除脚本
-                .add("rm -f /var/log/sgu_script.log")//删除错误日志
                 .add("service ua2f stop")//停止ua2f
                 .add("service ua2f disable")//取消ua2f的自启动
-                .add("cat /etc/firewall.user | sed -i '/# Modify the ttl./d' /etc/firewall.user")//删除防火墙配置
-                .add("cat /etc/firewall.user | sed -i '/iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64/d' /etc/firewall.user")
-                .add("/etc/init.d/firewall reload")
                 .startWithoutCheck();
-        return new SimpleEntry<>(true, "卸载成功");
+        SimpleEntry<Boolean, String> message = shellUtils.execCommandList()
+                .add("rm -f /etc/init.d/sgu_script")//删除脚本
+                .add("rm -f /var/log/sgu_script.log")//删除错误日志
+                .startWithCheck(5);
+        return message.getKey() ? new SimpleEntry<>(true, "卸载成功") : message;
     }
 
     /**
      * 输出错误日志
      *
-     * @return java.lang.String
+     * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
-     * @since 2022/9/9 11:56
+     * @since 2022/10/12 21:30
      */
     @Override
     public SimpleEntry<Boolean, String> log() {
