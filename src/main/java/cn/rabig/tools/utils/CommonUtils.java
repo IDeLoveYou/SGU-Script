@@ -143,6 +143,8 @@ public class CommonUtils {
             option = Integer.parseInt(scanner());
             if (option < 0 || option > optionCount) {
                 throw new RuntimeException();
+            }else {
+                log("");//换行
             }
         } catch (Exception e) {
             error("\n输入错误，请重新输入1-" + optionCount);

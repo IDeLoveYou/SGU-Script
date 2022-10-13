@@ -80,7 +80,7 @@ public class CliApp {
     public static void manageMode(Object system) {
         switch (mode) {
             case "install" -> {
-                CommonUtils.log("开始运行检测程序");
+                CommonUtils.log("开始运行检测程序:");
                 SimpleEntry<Boolean, String> check = ReflectUtil.invoke(system, "check");
                 if (check.getKey()) {
                     //可以安装，并打印提示信息
@@ -122,7 +122,7 @@ public class CliApp {
         String password = CommonUtils.scanner();
         ShellUtils shellUtils = new ShellUtils(host, port, username, password);
         if (shellUtils.isSuccess()) {
-            CommonUtils.log("SSH登录成功");
+            CommonUtils.log("SSH登录成功\n");
         } else {
             CommonUtils.error("SSH登录失败，请重试\n");
             shellUtils = verifySsh();

@@ -158,7 +158,7 @@ public class InstallController implements Initializable {
     }
 
     /**
-     * 通过反射执行路由器检查程序
+     * 通过反射执行固件函数
      *
      * @return void
      * @author MoNo
@@ -166,7 +166,6 @@ public class InstallController implements Initializable {
      */
     private void initCheckInfo() {
         system = ReflectUtil.newInstance(CommonUtils.getClassForName("cn.rabig.cli.controller." + LoginController.systemInfo), LoginController.shellUtils);
-        ReflectUtil.invoke(system, "check");
     }
 
     /**

@@ -1,5 +1,6 @@
 package cn.rabig.cli.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.rabig.tools.model.ShellModel;
 import cn.rabig.tools.utils.FileUtils;
 import cn.rabig.tools.utils.ShellUtils;
@@ -20,6 +21,9 @@ public class Openwrt implements BaseSystem {
 
     public Openwrt(ShellUtils ShellUtils) {
         shellUtils = ShellUtils;
+        checkCurl = shellUtils.exec("curl -help").isSuccess();
+        checkWget = shellUtils.exec("wget -help").isSuccess();
+        checkUA2F = StrUtil.isNotBlank(shellUtils.exec("opkg list_installed | grep \"\\ua2f\"").getOutMsg());
     }
 
     /**
@@ -35,9 +39,6 @@ public class Openwrt implements BaseSystem {
         if (isInstall()) {
             checkInfo = new SimpleEntry<>(true, "已安装SGU-Script，是否覆盖安装");
         }
-        checkCurl = shellUtils.exec("curl -help").isSuccess();
-        checkWget = shellUtils.exec("wget -help").isSuccess();
-        checkUA2F = !shellUtils.exec("opkg list_installed | grep \"\\ua2f\"").getOutMsg().isBlank();
         if (!checkUA2F) {
             checkInfo = new SimpleEntry<>(true, """
                     由于路由器不支持UA2F，大概率会被检测共享上网
