@@ -19,6 +19,7 @@ login() {
         #是否是夜间禁止上网信息，或者账号未开通
         isILogin=$(echo "$result" | grep "在线")
         isNight=$(echo "$result" | grep "运营商用户认证失败")
+        isProxies=$(echo "$result" | grep "架设代理")
         if [ -n "$isNight" ]; then
           echo "$1:$result(可能原因有：夜间禁止上网信息，或者账号未开通)" >>$LOG_FILE #输出错误日志
           logger -t SGU-Script "$result(可能原因有：服务器抽风，夜间禁止上网信息，或者账号未开通)"
@@ -31,6 +32,10 @@ login() {
           echo "$1:$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)" >>$LOG_FILE #输出错误日志
           logger -t SGU-Script "$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)"
           sleep 60 #休息1分钟
+        elif [ -n "$isProxies" ]; then
+          echo "$1:$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见【README】-【验证网络】-【第6条】)" >>$LOG_FILE #输出错误日志
+          logger -t SGU-Script "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见【README】-【验证网络】-【第6条】)"
+          sleep 300 #休息5分钟
         else
           echo "$1:$result" >>$LOG_FILE #输出错误日志
           logger -t SGU-Script "$result"
