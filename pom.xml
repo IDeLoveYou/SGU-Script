@@ -15,6 +15,20 @@
         <junit.version>5.9.0</junit.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>repo1</id>
+            <name>中央仓库1</name>
+            <url>https://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- ssh连接 -->
         <!-- https://mvnrepository.com/artifact/com.airlenet.yang/ganymed-ssh2 -->
@@ -40,7 +54,7 @@
         <dependency>
             <groupId>me.tongfei</groupId>
             <artifactId>progressbar</artifactId>
-            <version>0.9.4</version>
+            <version>0.9.5</version>
         </dependency>
         <!-- javafx依赖 -->
         <dependency>

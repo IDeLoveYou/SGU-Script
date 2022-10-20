@@ -162,11 +162,13 @@ public class CliApp {
                  请输入执行程序：
                 （1）安装SGU-Script
                 （2）卸载SGU-Script
-                （3）查看日志""");
-        switch (CommonUtils.scannerOption(3)) {
+                （3）查看日志
+                （4）退出程序""");
+        switch (CommonUtils.scannerOption(4)) {
             case 1 -> mode = "install";
             case 2 -> mode = "uninstall";
             case 3 -> mode = "log";
+            case 4 -> CommonUtils.exitCli();
         }
         chooseSystem();
     }

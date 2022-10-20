@@ -3,7 +3,7 @@
 START=99 #这里是启动优先级
 STOP=15  #这里是停止优先级
 LOG_FILE=/var/log/sgu_script.log
-logger_interval=300 #这里是"网络连接正常!"日志的间隔时间(每5分钟输出一次日志)
+logger_interval=600 #这里是"网络连接正常!"日志的间隔时间(每10分钟输出一次日志)
 
 #登录认证
 login() {
@@ -78,7 +78,8 @@ log() {
 }
 
 #打印日志计时器
-time_count=0 #初始化日志计时器
+time_count=0                   #初始化日志计时器
+time_count=$((time_count / 2)) #由于网络验证时ping了两次，差不多又多消耗一秒，于是次数减半
 logger_counter() {
   if [ "$time_count" -ge "$logger_interval" ]; then
     time_count=0 #计时器结束重置日志计时器

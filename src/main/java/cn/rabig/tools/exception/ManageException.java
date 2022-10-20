@@ -30,7 +30,7 @@ public class ManageException {
         CommonUtils.error(error);
         //追加写出错误信息
         FileWriter writer = new FileWriter(System.getProperty("user.dir") + System.getProperty("file.separator") + "error.log");
-        writer.write(error,true);
+        writer.write(error, true);
         //异常退出
         System.exit(1);
     }

@@ -24,8 +24,8 @@ public class CommonUtils {
      *
      * @param str [java.lang.String]
      * @return void
-     * @since 2022/10/12 22:11
      * @author MoNo
+     * @since 2022/10/12 22:11
      */
     public static void log(String str) {
         Console.log(str);
@@ -36,8 +36,8 @@ public class CommonUtils {
      *
      * @param str [java.lang.String]
      * @return void
-     * @since 2022/10/12 22:11
      * @author MoNo
+     * @since 2022/10/12 22:11
      */
     public static void error(String str) {
         Console.error(str);
@@ -67,7 +67,7 @@ public class CommonUtils {
      * @since 2022/10/12 21:50
      */
     public static void exitCli() {
-        CommonUtils.printProgressBar(10, "脚本10s后退出");
+        CommonUtils.printProgressBar(5, "程序5s后退出");
         System.exit(0);//正常退出
     }
 
@@ -143,7 +143,7 @@ public class CommonUtils {
             option = Integer.parseInt(scanner());
             if (option < 0 || option > optionCount) {
                 throw new RuntimeException();
-            }else {
+            } else {
                 log("");//换行
             }
         } catch (Exception e) {
