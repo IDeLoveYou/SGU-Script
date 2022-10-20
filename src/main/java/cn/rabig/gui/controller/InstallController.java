@@ -262,12 +262,12 @@ public class InstallController implements Initializable {
                 //进入确认阶段
                 initAndInstall(system);
             }));
-            //显示窗口
-            confirmInfo.showAndWait();
         } else {
             //添加取消按钮
             confirmInfo.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         }
+        //显示窗口
+        confirmInfo.showAndWait();
     }
 
     /**
