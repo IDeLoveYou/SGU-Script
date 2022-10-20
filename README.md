@@ -32,17 +32,18 @@
 
 *   `UA2F仓库` <https://github.com/Zxilly/UA2F>
 
-🔔 **有些设备由于没有机器所以没有进行测试，有问题请提issue**
+*   `避开校园网检测教程` https://www.notion.so/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59
 
 ***
 
 # 维护设备列表
+🔔 **有些设备由于没有机器所以没有进行测试，有问题请提issue**
 
 | 机型 | 标签 | 自用 | 是否进行测试 |
 | :----: | :----: | :----: | :----: |
 | 新路由3 | [d-team_newifi-d2](./ramips-mt7621-d-team_newifi-d2) | ✅ | ✅ |
 | 斐讯K2 | [phicomm_psg1218](./ramips-mt7620-phicomm_psg1218) | ❎ | ✅ |
-| 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ❎ | ❎ |
+| 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ✅ | ✅ |
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
@@ -100,24 +101,24 @@
 
     ```
 
-4.  加入UA2F模块
+4. 加入UA2F模块
 
-    ```bash
-    git clone https://github.com/Zxilly/UA2F.git package/UA2F
-    make menuconfig
-
-    # 在配置面板中按/搜索，即可找到
-    # 一般在此位置
-    network
-        --> Routing and Redirection
-            --> UA2F <*>
-    # 说明:
-    # <M>:单独编译
-    # <*>:编译进固件
-
-    # 然后保存退出
-
-    ```
+   ```bash
+   git clone https://github.com/Zxilly/UA2F.git package/UA2F
+   make menuconfig
+   
+   # 在配置面板中按/搜索，即可找到
+   # 一般在此位置
+   network
+       --> Routing and Redirection
+           --> UA2F <*>
+           
+   # 然后保存退出
+   
+   # 说明:
+   # <M>:单独编译
+   # <*>:编译进固件
+   ```
 
 5.  加入LuCI
 
@@ -164,14 +165,31 @@
     # 然后保存退出
     ```
 
-8.  修改内核配置文件
+8. 修改内核配置文件
 
-    ```bash
-    # 在openwrt/lede中找到[.config]文件(隐藏文件)底部加上
-
-    CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-
-    ```
+   ```bash
+   # 方法一
+   ## 在openwrt、lede或immortalwrt目录下target/linux/[target]/config-xxx文件
+   ## [target]是你的设备标签，例如新路由三[ramips-mt7621-d-team_newifi-d2]的config文件就在[lede/target/linux/ramips/mt7621]中
+   ## 在文件任意位置添加以下代码（可能不止一个config-xxx文件，保险起见都加上）
+   CONFIG_NETFILTER_NETLINK_GLUE_CT=y
+   ## 然后保存退出
+   
+   # 方法二（时间较长，要有耐心，推荐方法一）
+   ## 在openwrt、lede或immortalwrt目录下执行
+   make kernel_menuconfig
+   ## 依次选中
+   Networking support <*>
+       --> Networking options
+       	--> Network packet filtering framework (Netfilter) <*>
+           	--> Core Netfilter Configuration
+           		--> Netfilter NFNETLINK interface <*>
+           		--> Netfilter LOG over NFNETLINK interface <*>
+           		--> Netfilter connection tracking support <*>
+           		--> Connection tracking netlink interface <*>
+           		--> NFQUEUE and NFLOG integration with Connection Tracking <*>
+   ## 然后保存退出
+   ```
 
 9.  下载 dl 库
 
@@ -188,14 +206,14 @@
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin make -j$(($(nproc) + 1)) || PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin make -j1 V=s
     ```
 
-11. 编译完成后输出路径：bin/targets，一般使用包含squashfs-sysupgrade的固件，如果编译完只有内核固件，说明你加的模块太多了，体积超过了系统固件的最大体积
+11. 编译完成后输出路径：bin/targets，一般使用包含squashfs-sysupgrade的固件，如果编译完只有内核固件，说明你加的模块太多了，体积超过了固件的最大体积
 
 ***
 
 ## 二次编译
 
 ```bash
-cd lede
+cd openwrt/lede/immortalwrt
 git pull
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -255,3 +273,5 @@ make V=s -j$(nproc)
 *   编译的固件请开一个新文件夹存放，命名规则取编译完固件名称中`openwrt-`与`-squashfs-sysupgrade.bin`之间的内容
 
 *   编译的固件请备注好默认密码，以及默认路由器管理地址，写在文件夹单独的`info.txt`中
+
+*   若固件有什么特殊情况需要说明，请在`info.txt`中详细说明
