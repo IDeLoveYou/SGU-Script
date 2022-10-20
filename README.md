@@ -46,8 +46,8 @@
 | 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ✅ | ✅ |
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
+| 优酷路由宝 | [ramips-mt7620-youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ | ✅ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
-| 优酷路由宝 | [ramips-mt7620-youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ | ❎ |
 
 ***
 
@@ -55,8 +55,8 @@
 
 | 机型 | 原因 |
 | :----: | :----: |
-| 优酷路由宝 | 性能太差，UA2F经常崩溃，稳定性较差 |
-| 极壹S | 可以稳定使用UA2F，但网络状态较不稳定，不推荐使用 |
+| 极壹S | 有线性能还可以，无线性能拉胯 |
+| 优酷路由宝 | 性能太低，稳定性较差，无线性能拉胯 |
 
 ***
 
