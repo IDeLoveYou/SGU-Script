@@ -120,8 +120,10 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <!-- <mainClass>入口类，main 方法所在位置</mainClass> -->
+                            <!-- gui版主方法 -->
                             <mainClass>cn.rabig.gui.main.Launch</mainClass>
+                            <!-- cli版主方法 -->
+                            <!--<mainClass>cn.rabig.cli.main.CliApp</mainClass>-->
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -67,7 +67,7 @@ public class CommonUtils {
      * @since 2022/10/12 21:50
      */
     public static void exitCli() {
-        CommonUtils.printProgressBar(5, "程序5s后退出");
+        CommonUtils.printProgressBar(4, "程序4s后退出");
         System.exit(0);//正常退出
     }
 
