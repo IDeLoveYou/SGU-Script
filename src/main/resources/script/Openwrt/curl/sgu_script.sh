@@ -79,7 +79,7 @@ log() {
 
 #打印日志计时器
 time_count=0                   #初始化日志计时器
-time_count=$((time_count / 2)) #由于网络验证时ping了两次，差不多又多消耗一秒，于是次数减半
+logger_interval=$((logger_interval / 2)) #由于网络验证时ping了两次，差不多又多消耗一秒，于是次数减半
 logger_counter() {
   if [ "$time_count" -ge "$logger_interval" ]; then
     time_count=0 #计时器结束重置日志计时器
