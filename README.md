@@ -150,7 +150,6 @@
 
     ```bash
     # 找到以下模块并选上<*>
-
     LuCI
         --> 1. Collections
             --> luci <*>
@@ -166,8 +165,6 @@
 7.  加入防 TTL 检测依赖
 
     ```bash
-    make menuconfig
-
     # 按下/可搜索，搜索iptables-mod-ipopt, kmod-ipt-ipopt
     # 一般在此位置
     1.Network
