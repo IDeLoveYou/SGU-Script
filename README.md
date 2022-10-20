@@ -88,7 +88,7 @@
     sudo apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
     ```
 
-3.  下载源代码，更新 feeds 并选择配置
+3.  下载源代码，更新 feeds
 
     ```bash
     # 下载源码 (下面三者选其一)
@@ -100,72 +100,8 @@
     ./scripts/feeds install -a
 
     ```
-
-4. 加入UA2F模块
-
-   ```bash
-   git clone https://github.com/Zxilly/UA2F.git package/UA2F
-   make menuconfig
-   
-   # 在配置面板中按/搜索，即可找到
-   # 一般在此位置
-   network
-       --> Routing and Redirection
-           --> UA2F <*>
-           
-   # 然后保存退出
-   
-   # 说明:
-   # <M>:单独编译
-   # <*>:编译进固件
-   ```
-
-5.  加入LuCI
-
-    ```bash
-    # 找到以下模块并选上<*>
-
-    LuCI
-        --> 1. Collections
-            --> luci
-        --> 2. Modules
-            --> Translations
-                --> Chinese Simplified (zh_Hans)
-        --> 3. Modules
-            --> luci-compat
-            
-    # 然后保存退出
-    ```
-
-6.  加入防 TTL 检测依赖
-
-    ```bash
-    make menuconfig
-
-    # 按下/可搜索，搜索iptables-mod-ipopt, kmod-ipt-ipopt
-    # 一般在此位置
-    1.Network
-        --> Firewall
-            --> iptables-mod-ipopt <*>
-    2.Kernel modules
-        --> Netfilter Extensions
-            --> kmod-ipt-ipopt <*>
-            
-    # 然后保存退出
-    ```
-
-7.  其它依赖
-
-    ```bash
-    Network 
-        --> 1.ipset <*>
-        --> 2.Firewall
-            --> iptables-mod-conntrack-extra <*>
-            
-    # 然后保存退出
-    ```
-
-8. 修改内核配置文件
+    
+4. 修改内核配置文件
 
    ```bash
    # 方法一
@@ -173,7 +109,7 @@
    ## [target]是你的设备标签，例如新路由三[ramips-mt7621-d-team_newifi-d2]的config文件就在[lede/target/linux/ramips/mt7621]中
    ## 在文件任意位置添加以下代码（可能不止一个config-xxx文件，保险起见都加上）
    CONFIG_NETFILTER_NETLINK_GLUE_CT=y
-   ## 然后保存退出
+   ## 然后保存并退出
    
    # 方法二（时间较长，要有耐心，推荐方法一）
    ## 在openwrt、lede或immortalwrt目录下执行
@@ -188,9 +124,81 @@
            		--> Netfilter connection tracking support <*>
            		--> Connection tracking netlink interface <*>
            		--> NFQUEUE and NFLOG integration with Connection Tracking <*>
-   ## 然后保存退出
+   ## 然后保存并退出
    ```
 
+5. 加入UA2F模块
+
+   ```bash
+   git clone https://github.com/Zxilly/UA2F.git package/UA2F
+   make menuconfig
+   
+   # 在配置面板中按/搜索，即可找到
+   # 一般在此位置
+   network
+       --> Routing and Redirection
+           --> UA2F <*>
+           
+   # 然后保存
+   
+   # 说明:
+   # <M>:单独编译
+   # <*>:编译进固件
+   ```
+
+6.  加入LuCI
+
+    ```bash
+    # 找到以下模块并选上<*>
+
+    LuCI
+        --> 1. Collections
+            --> luci <*>
+        --> 2. Modules
+            --> Translations
+                --> Chinese Simplified (zh_Hans) <*>
+        --> 3. Modules
+            --> luci-compat <*>
+            
+    # 然后保存
+    ```
+
+7.  加入防 TTL 检测依赖
+
+    ```bash
+    make menuconfig
+
+    # 按下/可搜索，搜索iptables-mod-ipopt, kmod-ipt-ipopt
+    # 一般在此位置
+    1.Network
+        --> Firewall
+            --> iptables-mod-ipopt <*>
+    2.Kernel modules
+        --> Netfilter Extensions
+            --> kmod-ipt-ipopt <*>
+            
+    # 然后保存
+    ```
+
+8.  其它依赖
+
+    ```bash
+    Network 
+        --> 1.ipset <*>
+        --> 2.Firewall
+            --> iptables-mod-conntrack-extra <*>
+            
+    # 然后保存
+    ```
+    
+9.  定制固件
+
+    ```bash
+    自行勾选加入你想要定制的插件
+            
+    # 然后保存并退出
+    ```
+    
 9.  下载 dl 库
 
     ```bash
