@@ -169,7 +169,7 @@
 
    ```bash
    # 方法一
-   ## 在openwrt、lede或immortalwrt目录下target/linux/[target]/config-xxx文件
+   ## 在openwrt、lede或immortalwrt目录下找到target/linux/[target]/config-xxx文件
    ## [target]是你的设备标签，例如新路由三[ramips-mt7621-d-team_newifi-d2]的config文件就在[lede/target/linux/ramips/mt7621]中
    ## 在文件任意位置添加以下代码（可能不止一个config-xxx文件，保险起见都加上）
    CONFIG_NETFILTER_NETLINK_GLUE_CT=y
