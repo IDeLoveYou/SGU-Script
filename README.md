@@ -47,6 +47,7 @@
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
+| 优酷路由宝 | [ramips-mt7620-youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ | ❎ |
 
 ***
 
@@ -54,8 +55,8 @@
 
 | 机型 | 原因 |
 | :----: | :----: |
-| 极壹S | 可以稳定使用UA2F，但网络状态较不稳定，不特别推荐使用 |
-| 优酷路由宝 | 性能太差，UA2F经常崩溃，不能稳定使用，因此下架该机型固件 |
+| 优酷路由宝 | 性能太差，UA2F经常崩溃，稳定性较差 |
+| 极壹S | 可以稳定使用UA2F，但网络状态较不稳定，不推荐使用 |
 
 ***
 
@@ -275,7 +276,7 @@ make V=s -j$(nproc)
 
 *   编译的固件绝对不能包括任何后门或可以监控或者劫持你的 HTTPS 的闭源软件， SSL 安全是互联网最后的壁垒。安全干净才是固件应该做到的
 
-*   编译的固件请开一个新文件夹存放，命名规则取编译完固件名称中`openwrt-`与`-squashfs-sysupgrade.bin`之间的内容
+*   编译的固件请开一个新文件夹存放，命名规则取编译完固件名称中`openwrt-`、`immortalwrt-`与`-squashfs-sysupgrade.bin`之间的内容
 
 *   编译的固件请备注好默认密码，以及默认路由器管理地址，写在文件夹单独的`info.txt`中
 
