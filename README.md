@@ -125,6 +125,10 @@
            		--> Connection tracking netlink interface <*>
            		--> NFQUEUE and NFLOG integration with Connection Tracking <*>
    ## 然后保存并退出
+   
+   # 说明:
+   # <M>:单独编译
+   # <*>:编译进固件
    ```
 
 5. 加入UA2F模块
@@ -140,10 +144,6 @@
            --> UA2F <*>
            
    # 然后保存
-   
-   # 说明:
-   # <M>:单独编译
-   # <*>:编译进固件
    ```
 
 6.  加入LuCI
