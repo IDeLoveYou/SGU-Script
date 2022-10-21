@@ -32,7 +32,7 @@
 
 *   `UA2F仓库` <https://github.com/Zxilly/UA2F>
 
-*   `避开校园网检测教程` https://www.notion.so/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59
+*   `OpenWrt 编译与防检测部署教程` https://www.notion.so/sunbk201public/OpenWrt-f59ae1a76741486092c27bc24dbadc59
 
 ***
 
