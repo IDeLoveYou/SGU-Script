@@ -42,12 +42,13 @@
 | 机型 | 标签 | 自用 | 是否进行测试 |
 | :----: | :----: | :----: | :----: |
 | 新路由3 | [d-team_newifi-d2](./ramips-mt7621-d-team_newifi-d2) | ✅ | ✅ |
-| 斐讯K2 | [phicomm_psg1218](./ramips-mt7620-phicomm_psg1218) | ❎ | ✅ |
+| 斐讯K2 | [phicomm_psg1218a](./ramips-mt7620-phicomm_psg1218a) | ❎ | ✅ |
 | 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ✅ | ✅ |
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
 | 优酷路由宝 | [ramips-mt7620-youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ | ✅ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
+| 斐讯K2C | [phicomm_psg1218b](./ramips-mt7620-phicomm_psg1218b) | ❎ | ❎ |
 
 ***
 
