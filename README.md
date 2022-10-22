@@ -47,7 +47,7 @@
 | 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ✅ | ✅ |
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
-| 极路由3 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
+| 极路由3 | [hiwifi_hc5861](./ramips-mt7620-hiwifi_hc5861) | ❎ | ✅ |
 | 优酷路由宝 | [ramips-mt7620-hiwifi_hc5861](./ramips-mt7620-hiwifi_hc5861) | ❎ |❎ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
 
