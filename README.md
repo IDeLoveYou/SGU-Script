@@ -47,7 +47,8 @@
 | 斐讯K2P | [phicomm_k2p](./ramips-mt7621-phicomm_k2p) | ✅ | ✅ |
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
-| 优酷路由宝 | [ramips-mt7620-youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ | ✅ |
+| 极路由3 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
+| 优酷路由宝 | [ramips-mt7620-hiwifi_hc5861](./ramips-mt7620-hiwifi_hc5861) | ❎ |❎ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
 
 ***
@@ -100,7 +101,7 @@
     cd openwrt/lede/immortalwrt
     ./scripts/feeds update -a
     ./scripts/feeds install -a
-
+    
     ```
     
 4. 修改内核配置文件
