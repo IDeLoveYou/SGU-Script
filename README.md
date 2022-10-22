@@ -165,7 +165,7 @@
     # 然后保存
     ```
 
-7.  加入防 TTL 检测依赖
+7.  加入防 TTL 检测依赖（可选，韶关学院校园网貌似没有检测TTL）
 
     ```bash
     # 按下/可搜索，搜索iptables-mod-ipopt, kmod-ipt-ipopt
