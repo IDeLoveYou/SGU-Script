@@ -3,13 +3,13 @@
 START=99 #这里是启动优先级
 STOP=15  #这里是停止优先级
 LOG_FILE=/var/log/sgu_script.log
-logger_interval=600 #这里是"网络连接正常!"日志的间隔时间(每10分钟输出一次日志)
+logger_interval=600 #这里是"网络连接正常"日志的间隔时间(每10分钟输出一次日志)
 
 #登录认证
 login() {
   if ping -c 2 www.baidu.com >/dev/null 2>&1; then
     if "$2"; then
-      logger -t SGU-Script "网络连接正常!"
+      logger -t SGU-Script "网络连接正常"
     fi
     return 1
   else
@@ -28,23 +28,23 @@ login() {
           log "$1" "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
           sleep 60 #休息1分钟
         elif [ "$result" = "用户不存在,请输入正确的用户名!" ] || [ "$result" = "密码不匹配,请输入正确的密码!" ]; then
-          log "$1" "$result"
+          log "$1" "$result(请重新使用正确的用户名和密码覆盖安装SGU-Script)"
           exit 1
         elif [ -n "$isILogin" ]; then
           log "$1" "$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)"
           sleep 60 #休息1分钟
         elif [ -n "$isProxies" ]; then
-          log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见【README】-【验证网络】-【第6条】)"
+          log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
           sleep 300 #休息5分钟
         else
           log "$1" "$result"
           sleep 60 #休息1分钟
         fi
       else
-        logger -t SGU-Script "login Success!"
+        logger -t SGU-Script "锐捷网页认证成功"
       fi
     else
-      log "$1" "请检查网线是否插紧,路由器设置是否正确"
+      log "$1" "请检查网线是否插紧,或者[安装教程]-[路由器设置]步骤是否正确"
     fi
   fi
 }
@@ -55,7 +55,7 @@ clean_log() {
   #凌晨清理日志
   if [ "$time_now" -eq 0000 ]; then
     out_time=$(date '+%Y-%m-%d-%H:%M') #格式：2019-04-24-21:26
-    echo "$out_time:清理日志信息" >$LOG_FILE
+    echo "$out_time:为了防止日志过长，定时清理日志信息" >$LOG_FILE
   fi
 }
 
@@ -66,7 +66,7 @@ keep_alive() {
     isAlive=$(pgrep ua2f)
     if [ -z "$isAlive" ]; then
       /etc/init.d/ua2f start
-      logger -t SGU-Script "UA2F失活，启动UA2F"
+      logger -t SGU-Script "UA2F失活，即将启动UA2F"
     fi
   fi
 }
@@ -133,10 +133,10 @@ reload() {
 
 start() {
   /etc/init.d/sgu_script reload &
-  echo "SGU-script has started."
+  echo "SGU-script has started"
 }
 
 stop() {
   kill -9 "$(pgrep -f "sgu_script reload")" >/dev/null 2>&1
-  echo "SGU-script has stopped."
+  echo "SGU-script has stopped"
 }

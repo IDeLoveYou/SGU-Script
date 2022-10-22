@@ -44,7 +44,7 @@ public class Openwrt implements BaseSystem {
                     由于路由器不支持UA2F，大概率会被检测共享上网
                     封禁五分钟，后续会延迟时间
                     但是脚本支持断线自动连接，会在封禁解除后自动重连
-                    您可以决定是否继续安装
+                    你可以决定是否继续安装
                     """);
         }
         if (!checkCurl && !checkWget) {
