@@ -48,7 +48,7 @@
 | 极壹S | [hiwifi_hc5661](./ramips-mt7620-hiwifi_hc5661) | ❎ | ✅ |
 | 极路由2 | [hiwifi_hc5761](./ramips-mt7620-hiwifi_hc5761) | ❎ | ✅ |
 | 极路由3 | [hiwifi_hc5861](./ramips-mt7620-hiwifi_hc5861) | ❎ | ✅ |
-| 优酷路由宝 | [ramips-mt7620-hiwifi_hc5861](./ramips-mt7620-hiwifi_hc5861) | ❎ |❎ |
+| 优酷路由宝 | [youku_yk-l1](./ramips-mt7620-youku_yk-l1) | ❎ |❎ |
 | 小米路由器mini | [xiaomi_miwifi-mini](./ramips-mt7620-xiaomi_miwifi-mini) | ❎ | ❎ |
 
 ***
