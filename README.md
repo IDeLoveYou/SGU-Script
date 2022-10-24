@@ -284,6 +284,10 @@
 
 3.  **重启脚本**  `/etc/init.d/sgu_script restart`
 
+4.  **添加开机自启动**  `/etc/init.d/sgu_script enable`
+
+5.  **取消开机自启动**  `/etc/init.d/sgu_script disable`
+
 ***
 
 # 添砖加瓦
