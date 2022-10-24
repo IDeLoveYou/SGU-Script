@@ -2,6 +2,9 @@
 # shellcheck disable=SC2034
 START=99 #这里是启动优先级
 STOP=15  #这里是停止优先级
+username={}
+password={}
+ip={}
 LOG_FILE=/var/log/sgu_script.log
 logger_interval=600 #这里是"网络连接正常"日志的间隔时间(每10分钟输出一次日志)
 
@@ -14,7 +17,7 @@ login() {
     return 1
   else
     time_count="$logger_interval" #网络出错立即输出日志
-    response=$(curl -s -d 'userId={}' -d 'password={}' -d 'queryString=wlanuserip={}&wlanacname=NAS&ssid=Ruijie&nasip=172.16.253.90&mac=000000000000&t=wireless-v2-plain&url=http://1.1.1.1/' -X POST http://172.16.253.93:8080/eportal/InterFace.do?method=login)
+    response=$(curl -s -d "userId=$username" -d "password=$password" -d "queryString=wlanuserip=$ip&wlanacname=NAS&ssid=Ruijie&nasip=172.16.253.90&mac=000000000000&t=wireless-v2-plain&url=http://1.1.1.1/" -X POST http://172.16.253.93:8080/eportal/InterFace.do?method=login)
     if [ -n "$response" ]; then
       tmp=${response#*message\":\"}
       result=${tmp%\",\"forwordurl*} #formate response
@@ -78,7 +81,7 @@ log() {
 }
 
 #打印日志计时器
-time_count=0                   #初始化日志计时器
+time_count=0                             #初始化日志计时器
 logger_interval=$((logger_interval / 2)) #由于网络验证时ping了两次，差不多又多消耗一秒，于是次数减半
 logger_counter() {
   if [ "$time_count" -ge "$logger_interval" ]; then
@@ -132,8 +135,12 @@ reload() {
 }
 
 start() {
-  /etc/init.d/sgu_script reload &
-  echo "SGU-script has started"
+  if [ -n "$(pgrep -f "sgu_script reload")" ]; then
+    echo "SGU-script has already started"
+  else
+    /etc/init.d/sgu_script reload &
+    echo "SGU-script has started"
+  fi
 }
 
 stop() {
