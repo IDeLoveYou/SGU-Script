@@ -130,7 +130,7 @@
 
 ### Ⅲ.刷入固件
 
-1.  在`firmware分支`中有我提前编译好带UA2F的固件，若你使用的是该分支中的固件，请你提前先仔细阅读固件同文件夹下的`info.txt`，不同固件以下步骤可能会有所不同
+1.  在`firmware分支`中有我提前编译好带UA2F的固件，若你使用的是该分支中的固件，请你提前先仔细阅读固件同文件夹下的`info.txt`，不同固件以下步骤可能会有所不同；跳转至分支：[firmware](./tree/firmware/)，如需下载请点击右上角[克隆/下载]
 
 2.  电脑打开浏览器，进入[192.168.1.1](http://192.168.1.1/ "192.168.1.1")，打不开的话可以拔插网线试试
 
@@ -238,6 +238,8 @@
 
 ## 三、安装SGU-Script
 
+> 跳转至下载地址：[SGU-Script](./releases)
+
 ### Ⅰ.cli（命令行版本）
 
 1.  可跨平台，只需拥有`jre`环境，使用`java -jar SGU-Script.jar`命令来启动程序
@@ -330,6 +332,6 @@ SGU-Script目前只支持Openwrt固件，但目前Openwrt也已足够使用
 
 # 用户反馈
 
-有任何问题欢迎在Issues中提出，或者通过邮箱[rabig@foxmail.com](mailto:rabig@foxmail.com "rabig@foxmail.com")联系我
+有任何问题欢迎在[Issues](./issues)中提出，或者通过邮箱[rabig@foxmail.com](mailto:rabig@foxmail.com "rabig@foxmail.com")联系我
 
 这里贴一个[韶关学院路由器交流群](https://jq.qq.com/?_wv=1027&k=SbuWAkeP)，大家也可以在群里讨论
