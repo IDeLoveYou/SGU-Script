@@ -130,23 +130,25 @@
 
 ### Ⅲ.刷入固件
 
-1.  在`firmware分支`中有我提前编译好带UA2F的固件，若你使用的是该分支中的固件，请你提前先仔细阅读固件同文件夹下的`info.txt`，不同固件以下步骤可能会有所不同；跳转至分支：[firmware](./tree/firmware/)，如需下载请点击右上角[克隆/下载]
+1.  在`firmware分支`中有我提前编译好带UA2F的固件，若你使用的是该分支中的固件，请你提前先仔细阅读固件同文件夹下的`info.txt`，不同固件以下步骤可能会有所不同
 
-2.  电脑打开浏览器，进入[192.168.1.1](http://192.168.1.1/ "192.168.1.1")，打不开的话可以拔插网线试试
+2.  `firmware分支`跳转链接：[firmware](../../tree/firmware/)，如需下载固件请点击右上角[克隆/下载]，阅读`firmware分支`的[README.md]说明来选择适配你路由器的固件
 
-3.  不出所料的话你会进入以下界面
+3.  电脑打开浏览器，进入[192.168.1.1](http://192.168.1.1/ "192.168.1.1")，打不开的话可以拔插网线试试
+
+4.  不出所料的话你会进入以下界面
 
     ![输入图片说明](https://foruda.gitee.com/images/1666349059109396222/f0a2a7d6_9532490.png "1-min.png")
 
-4.  之后我们选择[恢复出厂设置]-[Config 区 (公版)]&[Config 区 (精简)]-[执行]
+5.  之后我们选择[恢复出厂设置]-[Config 区 (公版)]&[Config 区 (精简)]-[执行]
 
     ![输入图片说明](https://foruda.gitee.com/images/1666349066729115896/e3071788_9532490.png "2-min.png")
 
-5.  执行成功后，如图依次点击，上传带UA2F的固件，并更新
+6.  执行成功后，如图依次点击，上传带UA2F的固件，并更新
 
     ![输入图片说明](https://foruda.gitee.com/images/1666349075080075741/ab1aa4c9_9532490.png "3-min.png")
 
-6.  显示此界面时固件就安装成功了，等待路由器开机（2-3分钟）
+7.  显示此界面时固件就安装成功了，等待路由器开机（2-3分钟）
 
     ![输入图片说明](https://foruda.gitee.com/images/1666349081795589845/d776e1df_9532490.png "4-min.png")
 
@@ -238,7 +240,7 @@
 
 ## 三、安装SGU-Script
 
-> 跳转至下载地址：[SGU-Script](./releases)
+> 跳转至下载地址：[SGU-Script](../../releases)
 
 ### Ⅰ.cli（命令行版本）
 
@@ -332,6 +334,6 @@ SGU-Script目前只支持Openwrt固件，但目前Openwrt也已足够使用
 
 # 用户反馈
 
-有任何问题欢迎在[Issues](./issues)中提出，或者通过邮箱[rabig@foxmail.com](mailto:rabig@foxmail.com "rabig@foxmail.com")联系我
+有任何问题欢迎在[Issues](../../issues)中提出，或者通过邮箱[rabig@foxmail.com](mailto:rabig@foxmail.com "rabig@foxmail.com")联系我
 
 这里贴一个[韶关学院路由器交流群](https://jq.qq.com/?_wv=1027&k=SbuWAkeP)，大家也可以在群里讨论
