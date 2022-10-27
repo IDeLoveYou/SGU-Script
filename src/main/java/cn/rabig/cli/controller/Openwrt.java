@@ -98,7 +98,8 @@ public class Openwrt implements BaseSystem {
                     .add("uci commit ua2f", "保存UA2F设置");
         }
         //添加脚本自启和运行脚本
-        CommandList.add("/etc/init.d/sgu_script enable", "添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
+        CommandList.add("rm -f /usr/bin/sgu_script && ln -s /etc/init.d/sgu_script /usr/bin/sgu_script", "创建脚本软链接失败，请自行使用【rm -f /usr/bin/sgu_script && ln -s /etc/init.d/sgu_script /usr/bin/sgu_script】命令来创建软链接")
+                .add("/etc/init.d/sgu_script enable", "添加脚本自启动失败，请自行在【路由器管理界面】-【系统】-【启动项】中找到【sgu_script】并启动")
                 .add("/etc/init.d/sgu_script restart", "脚本启动失败，请重启路由器或使用命令【/etc/init.d/sgu_script restart】手动启动脚本");
         //执行命令链安装SGU—Script
         SimpleEntry<Boolean, String> message = CommandList.startWithCheck(5);
@@ -126,8 +127,9 @@ public class Openwrt implements BaseSystem {
                 .add("service ua2f disable")//取消ua2f的自启动
                 .startWithoutCheck();
         SimpleEntry<Boolean, String> message = shellUtils.execCommandList()
-                .add("rm -f /etc/init.d/sgu_script")//删除脚本
-                .add("rm -f /var/log/sgu_script.log")//删除错误日志
+                .add("rm -f /usr/bin/sgu_script", "删除脚本软链接失败")
+                .add("rm -f /etc/init.d/sgu_script", "删除脚本失败")
+                .add("rm -f /var/log/sgu_script.log", "删除错误日志失败")
                 .startWithCheck(5);
         return message.getKey() ? new SimpleEntry<>(true, "卸载成功") : message;
     }

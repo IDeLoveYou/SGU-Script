@@ -278,15 +278,15 @@
 
 ## OpenWrt
 
-1.  **启动脚本**  `/etc/init.d/sgu_script start`
+1.  **启动脚本**  `sgu_script start`
 
-2.  **停止脚本**  `/etc/init.d/sgu_script stop`
+2.  **停止脚本**  `sgu_script stop`
 
-3.  **重启脚本**  `/etc/init.d/sgu_script restart`
+3.  **重启脚本**  `sgu_script restart`
 
-4.  **添加开机自启动**  `/etc/init.d/sgu_script enable`
+4.  **添加开机自启动**  `sgu_script enable`
 
-5.  **取消开机自启动**  `/etc/init.d/sgu_script disable`
+5.  **取消开机自启动**  `sgu_script disable`
 
 ***
 
