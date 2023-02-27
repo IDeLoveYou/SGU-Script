@@ -98,8 +98,8 @@ public class LoginController implements Initializable {
      * @since 2022/10/12 21:41
      */
     public void checkHost() {
+        infoFlag.put("host", false);
         host.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            infoFlag.put("host", false);
             if (!newValue) {
                 if (!host.getText().isBlank() && !host.getText().contains(" ")) {
                     hostInfo.setText("");
@@ -124,8 +124,8 @@ public class LoginController implements Initializable {
                 port.setText(oldValue);
             }
         });
+        infoFlag.put("port", false);
         port.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            infoFlag.put("port", false);
             if (!newValue) {
                 if (!port.getText().isBlank()) {
                     portInfo.setText("");
@@ -145,8 +145,8 @@ public class LoginController implements Initializable {
      * @since 2022/10/12 21:41
      */
     public void checkUserName() {
+        infoFlag.put("username", false);
         username.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            infoFlag.put("username", false);
             if (!newValue) {
                 if (!username.getText().isBlank() && username.getText().length() < 50 && !username.getText().contains(" ")) {
                     userNameInfo.setText("");
@@ -166,8 +166,8 @@ public class LoginController implements Initializable {
      * @since 2022/10/12 21:41
      */
     public void checkPassWord() {
+        infoFlag.put("password", false);
         password.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            infoFlag.put("password", false);
             if (!newValue) {
                 if (!password.getText().isBlank() && password.getText().length() < 100 && !password.getText().contains(" ")) {
                     passWordInfo.setText("");

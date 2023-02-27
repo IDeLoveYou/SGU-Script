@@ -93,28 +93,20 @@ logger_counter() {
   fi
 }
 
-#同步时间后调用的登录方法
-time_right_login() {
+#脚本主函数
+main_script() {
   while true; do
     keep_alive
     clean_log
-    WEEK_DAY=$(date +%w)
     time_now=$(date '+%H%M')
-    #获取星期，星期六日不断网
-    if [ "$WEEK_DAY" -eq 6 ] || [ "$WEEK_DAY" -eq 0 ]; then
-      login "$time_now" logger_counter
-    else
-      #早上5.30--24.00 执行脚本
-      if [ "$time_now" -ge 530 ] && [ "$time_now" -le 2400 ]; then
-        login "$time_now" logger_counter
-      fi
-    fi
+    #韶院不断网，无需判断日期
+    login "$time_now" logger_counter
     sleep 1 #休息1s
   done
 }
 
-#未知时间时调用
-time_unknown_login() {
+#同步时间成功之前调用
+syn_time() {
   #循环直到联网成功
   while login "未知时间" true; do
     sleep 1 #休息1s
@@ -127,11 +119,11 @@ time_unknown_login() {
 #登录函数
 reload() {
   #同步时间
-  time_unknown_login
+  syn_time
   #开机等待ua2f运行
   sleep 60
   #脚本主函数
-  time_right_login
+  main_script
 }
 
 start() {
