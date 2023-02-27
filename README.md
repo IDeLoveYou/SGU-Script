@@ -332,6 +332,8 @@ SGU-Script目前只支持Openwrt固件，但目前Openwrt也已足够使用
 
 7.  目前有些网站在UA被篡改的情况下可能会访问异常，例如宝塔面板；因此如果你既使用了UA2F又想要正常浏览此类网站，可以安装浏览器拓展`User-Agent Switcher and Manager`来修改`浏览器UA`为`UA2F篡改后的UA`；操作步骤：右键拓展切换到`"white-list" mod`模式；在拓展选项中的`White-List Mode`列表里添加需要修改的网站，如宝塔；单击拓展，将`userAgent`修改为[UA检测网站](http://ua.233996.xyz/)中获取到的`真实UA`并`Apply(all windows)`
 
+8.  某些多频段路由器固件(例如K2)的无线模块存在问题，可以尝试将两个频段(2.4 GHz, 5 GHz)的无线名称、密码、加密方式调整为相同的来解决这个问题
+
 ***
 
 # 用户反馈
