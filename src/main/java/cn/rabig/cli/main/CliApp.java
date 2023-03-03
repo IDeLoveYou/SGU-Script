@@ -4,7 +4,6 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.rabig.cli.controller.BaseSystem;
 import cn.rabig.tools.utils.CommonUtils;
 import cn.rabig.tools.utils.ShellUtils;
-
 import java.util.AbstractMap.SimpleEntry;
 
 
@@ -158,6 +157,22 @@ public class CliApp {
      * @since 2022/10/12 21:36
      */
     public static void main(String[] args) {
+        CommonUtils.log("\n" +
+                "  /$$$$$$   /$$$$$$  /$$   /$$          /$$$$$$                      /$$             /$$    \n" +
+                " /$$__  $$ /$$__  $$| $$  | $$         /$$__  $$                    |__/            | $$    \n" +
+                "| $$  \\__/| $$  \\__/| $$  | $$        | $$  \\__/  /$$$$$$$  /$$$$$$  /$$  /$$$$$$  /$$$$$$  \n" +
+                "|  $$$$$$ | $$ /$$$$| $$  | $$ /$$$$$$|  $$$$$$  /$$_____/ /$$__  $$| $$ /$$__  $$|_  $$_/  \n" +
+                " \\____  $$| $$|_  $$| $$  | $$|______/ \\____  $$| $$      | $$  \\__/| $$| $$  \\ $$  | $$    \n" +
+                " /$$  \\ $$| $$  \\ $$| $$  | $$         /$$  \\ $$| $$      | $$      | $$| $$  | $$  | $$ /$$\n" +
+                "|  $$$$$$/|  $$$$$$/|  $$$$$$/        |  $$$$$$/|  $$$$$$$| $$      | $$| $$$$$$$/  |  $$$$/\n" +
+                " \\______/  \\______/  \\______/          \\______/  \\_______/|__/      |__/| $$____/    \\___/  \n" +
+                "                                                                        | $$                \n" +
+                "                                                                        | $$                \n" +
+                "                                                                        |__/                \n" +
+                "AUTHOR: " + CommonUtils.getProps("author") + "\n" +
+                "VERSION: " + CommonUtils.getProps("version") + "\n" +
+                "GITEE:\t" + CommonUtils.getProps("gitee") + "\n" +
+                "GITHUB:\t" + CommonUtils.getProps("github") + "\n");
         CommonUtils.log("""
                  请输入执行程序：
                 （1）安装SGU-Script

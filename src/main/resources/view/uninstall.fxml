@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane fx:id="uninstallPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.rabig.gui.controller.UninstallController">
-    <TextArea fx:id="logArea" editable="false" focusTraversable="false" layoutX="11.0" layoutY="14.0" prefHeight="309.0"
+    <TextArea fx:id="logArea" editable="false" focusTraversable="false" layoutX="12.0" layoutY="14.0" prefHeight="324.0"
               prefWidth="577.0" text="&#10;尚未安装SGU-Script"/>
-    <Button layoutX="388.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#previous" prefHeight="23.0"
+    <Button layoutX="388.0" layoutY="346.0" mnemonicParsing="false" onMouseClicked="#previous" prefHeight="23.0"
             prefWidth="81.0" text="上一步"/>
-    <Button fx:id="uninstallButton" disable="true" layoutX="491.0" layoutY="334.0" mnemonicParsing="false"
+    <Button fx:id="uninstallButton" disable="true" layoutX="493.0" layoutY="346.0" mnemonicParsing="false"
             onMouseClicked="#uninstall" prefHeight="23.0" prefWidth="81.0" text="开始卸载"/>
 </AnchorPane>

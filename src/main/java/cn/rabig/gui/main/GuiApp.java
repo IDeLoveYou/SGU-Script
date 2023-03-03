@@ -18,7 +18,7 @@ public class GuiApp extends Application {
         Parent home = CommonUtils.loadFXML("home");
         Scene scene = new Scene(home);
         scene.setRoot(home);
-        stage.setTitle("SGU-Script");
+        stage.setTitle("SGU-Script  " + CommonUtils.getProps("author") + "-" + CommonUtils.getProps("version"));
         stage.getIcons().add(new Image(ResourceUtil.getStreamSafe("icon/icon.png")));
         stage.setScene(scene);
         stage.show();

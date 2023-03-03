@@ -2,7 +2,6 @@ package cn.rabig.tools.utils;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
-
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -23,7 +22,7 @@ public class FileUtils {
      */
     public static byte[] writeSGUScript(String username, String password, String ip, String mode) {
         String scriptTemplate = ResourceUtil.readUtf8Str("script/Openwrt/" + mode + "/sgu_script.sh");
-        String script = StrUtil.format(scriptTemplate, username, password, ip);
+        String script = StrUtil.format(scriptTemplate, CommonUtils.getProps("author"), CommonUtils.getProps("version"), CommonUtils.getProps("gitee"), CommonUtils.getProps("github"), username, password, ip);
         return script.getBytes(StandardCharsets.UTF_8);
     }
 }

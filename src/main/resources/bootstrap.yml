@@ -1,0 +1,8 @@
+#作者
+author: IDeLoveYou
+#版本(从pom.xml读取)
+version: ${project.version}
+#gitee链接
+gitee: https://gitee.com/ideloveyou/SGU-Script.git
+#github链接
+github: https://github.com/IDeLoveYou/SGU-Script.git

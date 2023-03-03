@@ -1,5 +1,8 @@
 #!/bin/sh /etc/rc.common
-# shellcheck disable=SC2034
+# author: {}
+# version: {}
+# gitee: {}
+# github: {}
 START=99 #这里是启动优先级
 STOP=15  #这里是停止优先级
 username={}

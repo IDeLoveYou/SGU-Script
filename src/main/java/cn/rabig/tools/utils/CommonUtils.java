@@ -7,7 +7,8 @@ import javafx.scene.Parent;
 import me.tongfei.progressbar.ProgressBar;
 import me.tongfei.progressbar.ProgressBarBuilder;
 import me.tongfei.progressbar.ProgressBarStyle;
-
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,28 @@ import java.util.stream.IntStream;
  * @since 2022/9/4 18:53
  **/
 public class CommonUtils {
+
+    /**
+     * 获取配置文件
+     *
+     * @param key [java.lang.String]
+     * @return java.lang.Object
+     * @author IDeLoveYou
+     * @since 2023/3/3 14:02
+     */
+    public static Object getProps(String key) {
+        Properties properties = new Properties();
+        try {
+            properties.load(CommonUtils.class.getClassLoader().getResourceAsStream("bootstrap.yml"));
+            if (!properties.isEmpty()) {
+                return properties.getProperty(key);
+            }
+        } catch (IOException e) {
+            ManageException.throwException(e);
+        }
+        return null;
+    }
+
     /**
      * 打印日志
      *
