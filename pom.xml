@@ -6,7 +6,7 @@
 
     <groupId>cn.rabig</groupId>
     <artifactId>SGU-Script</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <name>SGU-Script</name>
 
     <properties>
@@ -109,7 +109,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-gui</id>
                         <configuration>
-                            <mainClass>cn.rabig.gui.main.GuiApp</mainClass>
+                            <mainClass>cn.rabig.gui.main.Launch</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
