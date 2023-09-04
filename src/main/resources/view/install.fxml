@@ -34,8 +34,6 @@
                GridPane.rowIndex="3"/>
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="252.0" text="宽带密码"
                GridPane.rowIndex="4"/>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="252.0" text="IP"
-               GridPane.rowIndex="5"/>
         <RadioButton fx:id="curl" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="193.0"
                      text="不支持" GridPane.columnIndex="1"/>
         <RadioButton fx:id="wget" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="197.0"
@@ -44,13 +42,10 @@
                GridPane.rowIndex="2"/>
         <TextField fx:id="username" promptText="学号" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <TextField fx:id="password" promptText="手机号" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-        <TextField fx:id="ip" promptText="公众号查询" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
         <Label fx:id="userNameInfo" alignment="CENTER" prefHeight="15.0" prefWidth="223.0" textFill="RED"
                GridPane.columnIndex="2" GridPane.rowIndex="3"/>
         <Label fx:id="passWordInfo" alignment="CENTER" prefHeight="15.0" prefWidth="203.0" textFill="RED"
                GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-        <Label fx:id="IPInfo" alignment="CENTER" prefHeight="15.0" prefWidth="202.0" textFill="RED"
-               GridPane.columnIndex="2" GridPane.rowIndex="5"/>
     </GridPane>
     <Button layoutX="214.0" layoutY="312.0" mnemonicParsing="false" onMouseClicked="#previous" text="上一步"/>
     <Button fx:id="installButton" layoutX="338.0" layoutY="312.0" mnemonicParsing="false" onMouseClicked="#install"

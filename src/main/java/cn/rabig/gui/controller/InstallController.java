@@ -27,10 +27,8 @@ public class InstallController implements Initializable {
     public Label ua2f;
     public TextField username;
     public TextField password;
-    public TextField ip;
     public Label userNameInfo;
     public Label passWordInfo;
-    public Label IPInfo;
     public Label error;
     public AnchorPane installPane;
     public Button installButton;
@@ -74,29 +72,6 @@ public class InstallController implements Initializable {
         checkUsername();
         //检查宽带密码
         checkPassword();
-        //检查IP
-        checkIp();
-    }
-
-    /**
-     * 检查IP
-     *
-     * @return void
-     * @author MoNo
-     * @since 2022/10/12 21:37
-     */
-    private void checkIp() {
-        infoFlag.put("ip", false);
-        ip.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                if (!ip.getText().isBlank() && CommonUtils.checkIp(ip.getText())) {
-                    IPInfo.setText("");
-                    infoFlag.put("ip", true);
-                } else {
-                    IPInfo.setText("请输入正确IP");
-                }
-            }
-        });
     }
 
     /**
@@ -154,7 +129,6 @@ public class InstallController implements Initializable {
         ua2f.setTooltip(new Tooltip("是否支持UA2F，更改ua标头，避免被检查共享"));
         username.setTooltip(new Tooltip("请输入宽带账号"));
         password.setTooltip(new Tooltip("请输入宽带密码"));
-        ip.setTooltip(new Tooltip("请从公众号查询"));
     }
 
     /**
@@ -223,7 +197,7 @@ public class InstallController implements Initializable {
             //开始安装
             new Thread(() -> {
                 RadioButton mode = (RadioButton) toggleGroup.getSelectedToggle();
-                SimpleEntry<Boolean, String> install = ReflectUtil.invoke(system, "install", username.getText(), password.getText(), ip.getText(), mode.getId());
+                SimpleEntry<Boolean, String> install = ReflectUtil.invoke(system, "install", username.getText(), password.getText(), mode.getId());
                 Platform.runLater(() -> {
                     installing.close();
                     Alert result = GuiUtils.setAlert("提示", install.getValue(), 350, 100);

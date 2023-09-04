@@ -21,7 +21,7 @@ public class Pandora implements BaseSystem {
     }
 
     @Override
-    public SimpleEntry<Boolean, String> install(String username, String password, String ip, String mode) {
+    public SimpleEntry<Boolean, String> install(String username, String password, String mode) {
         return null;
     }
 

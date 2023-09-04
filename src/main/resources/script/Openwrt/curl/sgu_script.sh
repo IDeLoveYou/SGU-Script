@@ -7,9 +7,14 @@ START=99 #这里是启动优先级
 STOP=15  #这里是停止优先级
 username={}
 password={}
-ip={}
 LOG_FILE=/var/log/sgu_script.log
 logger_interval=600 #这里是"网络连接正常"日志的间隔时间(每10分钟输出一次日志)
+
+# 定义函数，提取两个字符串之间的值
+sub_between() {
+    tmp="${1#*"$2"}"
+    echo "${tmp%"$3"*}"
+}
 
 #登录认证
 login() {
@@ -20,37 +25,43 @@ login() {
     return 1
   else
     time_count="$logger_interval" #网络出错立即输出日志
-    response=$(curl -s -d "userId=$username" -d "password=$password" -d "queryString=wlanuserip=$ip&wlanacname=NAS&ssid=Ruijie&nasip=172.16.253.90&mac=000000000000&t=wireless-v2-plain&url=http://1.1.1.1/" -X POST http://172.16.253.93:8080/eportal/InterFace.do?method=login)
-    if [ -n "$response" ]; then
-      tmp=${response#*message\":\"}
-      result=${tmp%\",\"forwordurl*} #formate response
-      #不为空有错误信息
-      if [ -n "$result" ]; then
-        #是否是夜间禁止上网信息，或者账号未开通
-        isILogin=$(echo "$result" | grep "在线")
-        isNight=$(echo "$result" | grep "运营商用户认证失败")
-        isProxies=$(echo "$result" | grep "架设代理")
-        if [ -n "$isNight" ]; then
-          log "$1" "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
-          sleep 60 #休息1分钟
-        elif [ "$result" = "用户不存在,请输入正确的用户名!" ] || [ "$result" = "密码不匹配,请输入正确的密码!" ]; then
-          log "$1" "$result(请重新使用正确的用户名和密码覆盖安装SGU-Script)"
-          exit 1
-        elif [ -n "$isILogin" ]; then
-          log "$1" "$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)"
-          sleep 60 #休息1分钟
-        elif [ -n "$isProxies" ]; then
-          log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
-          sleep 300 #休息5分钟
+    #动态获取ip地址
+    redirect=$(curl -v -s http://1.1.1.1 2>&1)
+    ip=$(sub_between "$redirect" "wlanuserip=" "&wlanacname")
+    wlan=$(sub_between "$redirect" "wlanacname=" "&mac")
+    #ip和wlan不为空则开始登录请求
+    if [ -n "$ip" ] || [ -n "$wlan" ]; then
+      response=$(curl -s -X GET "http://172.16.253.121/quickauth.do?userid=$username&passwd=$password&wlanuserip=$ip&wlanacname=$wlan")
+      if [ -n "$response" ]; then
+        result=$(sub_between "$response" "message\":\"" "\",\"wlanacIp")
+        #不为认证成功有错误信息
+        if [ "$result" != "认证成功" ]; then
+          #是否是夜间禁止上网信息，或者账号未开通
+          isILogin=$(echo "$result" | grep "在线")
+          isNight=$(echo "$result" | grep "运营商用户认证失败")
+          isProxies=$(echo "$result" | grep "架设代理")
+          if [ -n "$isNight" ]; then
+            log "$1" "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
+            sleep 60 #休息1分钟
+          elif [ "$result" = "用户不存在,请输入正确的用户名!" ] || [ "$result" = "密码不匹配,请输入正确的密码!" ]; then
+            log "$1" "$result(请重新使用正确的用户名和密码覆盖安装SGU-Script)"
+            exit 1
+          elif [ -n "$isILogin" ]; then
+            log "$1" "$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)"
+            sleep 60 #休息1分钟
+          elif [ -n "$isProxies" ]; then
+            log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
+            sleep 300 #休息5分钟
+          else
+            log "$1" "$result"
+            sleep 60 #休息1分钟
+          fi
         else
-          log "$1" "$result"
-          sleep 60 #休息1分钟
+          logger -t SGU-Script "锐捷网页认证成功"
         fi
       else
-        logger -t SGU-Script "锐捷网页认证成功"
+        log "$1" "请检查网线是否插紧,或者[安装教程]-[路由器设置]步骤是否正确"
       fi
-    else
-      log "$1" "请检查网线是否插紧,或者[安装教程]-[路由器设置]步骤是否正确"
     fi
   fi
 }

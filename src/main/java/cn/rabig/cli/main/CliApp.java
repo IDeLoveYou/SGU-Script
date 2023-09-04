@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.rabig.cli.controller.BaseSystem;
 import cn.rabig.tools.utils.CommonUtils;
 import cn.rabig.tools.utils.ShellUtils;
+
 import java.util.AbstractMap.SimpleEntry;
 
 
@@ -12,7 +13,8 @@ import java.util.AbstractMap.SimpleEntry;
  * @since 2022/8/29 16:27
  **/
 public class CliApp {
-    private static String mode;
+    //要执行的操作
+    private static String controls;
 
     /**
      * 初始化账号信息并开始安装
@@ -25,7 +27,13 @@ public class CliApp {
     public static void initAndInstall(Object system) {
         boolean checkCurl = (boolean) ReflectUtil.getFieldValue(system, "checkCurl");
         boolean checkWget = (boolean) ReflectUtil.getFieldValue(system, "checkWget");
-        String mode = "curl";
+        String mode = null;
+        //curl和wget都不支持
+        if (!checkCurl && !checkWget) {
+            CommonUtils.log("路由器需支持curl或wget中任意一种网络请求工具");
+            CommonUtils.exitCli();
+        }
+        //curl与wget都支持，用户选择
         if (checkCurl && checkWget) {
             CommonUtils.log("""
                     请选择安装脚本模式：
@@ -35,18 +43,19 @@ public class CliApp {
                 case 1 -> mode = "curl";
                 case 2 -> mode = "wget";
             }
-        } else if (checkWget) {
-            mode = "wget";
+        } else if (checkCurl || checkWget) {
+            //curl或wget支持
+            mode = checkCurl ? "curl" : "wget";
+            CommonUtils.log("检测到路由器支持" + mode + "，采用" + mode + "模式");
         }
         //安装阶段
         CommonUtils.log("请输入宽带账号，务必正确");
         String username = CommonUtils.scanner();
         CommonUtils.log("请输入宽带密码，务必正确");
         String password = CommonUtils.scanner();
-        CommonUtils.log("请输入ip");
-        String ip = CommonUtils.scanner();
-        SimpleEntry<Boolean, String> install = ReflectUtil.invoke(system, "install", username, password, ip, mode);
+        SimpleEntry<Boolean, String> install = ReflectUtil.invoke(system, "install", username, password, mode);
         CommonUtils.log(install.getValue());
+        CommonUtils.exitCli();
     }
 
     /**
@@ -77,7 +86,7 @@ public class CliApp {
      * @since 2022/10/12 21:35
      */
     public static void manageMode(Object system) {
-        switch (mode) {
+        switch (controls) {
             case "install" -> {
                 CommonUtils.log("开始运行检测程序:");
                 SimpleEntry<Boolean, String> check = ReflectUtil.invoke(system, "check");
@@ -158,21 +167,21 @@ public class CliApp {
      */
     public static void main(String[] args) {
         CommonUtils.log("\n" +
-                "  /$$$$$$   /$$$$$$  /$$   /$$          /$$$$$$                      /$$             /$$    \n" +
-                " /$$__  $$ /$$__  $$| $$  | $$         /$$__  $$                    |__/            | $$    \n" +
-                "| $$  \\__/| $$  \\__/| $$  | $$        | $$  \\__/  /$$$$$$$  /$$$$$$  /$$  /$$$$$$  /$$$$$$  \n" +
-                "|  $$$$$$ | $$ /$$$$| $$  | $$ /$$$$$$|  $$$$$$  /$$_____/ /$$__  $$| $$ /$$__  $$|_  $$_/  \n" +
-                " \\____  $$| $$|_  $$| $$  | $$|______/ \\____  $$| $$      | $$  \\__/| $$| $$  \\ $$  | $$    \n" +
-                " /$$  \\ $$| $$  \\ $$| $$  | $$         /$$  \\ $$| $$      | $$      | $$| $$  | $$  | $$ /$$\n" +
-                "|  $$$$$$/|  $$$$$$/|  $$$$$$/        |  $$$$$$/|  $$$$$$$| $$      | $$| $$$$$$$/  |  $$$$/\n" +
-                " \\______/  \\______/  \\______/          \\______/  \\_______/|__/      |__/| $$____/    \\___/  \n" +
-                "                                                                        | $$                \n" +
-                "                                                                        | $$                \n" +
-                "                                                                        |__/                \n" +
-                "AUTHOR: " + CommonUtils.getProps("author") + "\n" +
-                "VERSION: " + CommonUtils.getProps("version") + "\n" +
-                "GITEE:\t" + CommonUtils.getProps("gitee") + "\n" +
-                "GITHUB:\t" + CommonUtils.getProps("github") + "\n");
+                        "  /$$$$$$   /$$$$$$  /$$   /$$          /$$$$$$                      /$$             /$$    \n" +
+                        " /$$__  $$ /$$__  $$| $$  | $$         /$$__  $$                    |__/            | $$    \n" +
+                        "| $$  \\__/| $$  \\__/| $$  | $$        | $$  \\__/  /$$$$$$$  /$$$$$$  /$$  /$$$$$$  /$$$$$$  \n" +
+                        "|  $$$$$$ | $$ /$$$$| $$  | $$ /$$$$$$|  $$$$$$  /$$_____/ /$$__  $$| $$ /$$__  $$|_  $$_/  \n" +
+                        " \\____  $$| $$|_  $$| $$  | $$|______/ \\____  $$| $$      | $$  \\__/| $$| $$  \\ $$  | $$    \n" +
+                        " /$$  \\ $$| $$  \\ $$| $$  | $$         /$$  \\ $$| $$      | $$      | $$| $$  | $$  | $$ /$$\n" +
+                        "|  $$$$$$/|  $$$$$$/|  $$$$$$/        |  $$$$$$/|  $$$$$$$| $$      | $$| $$$$$$$/  |  $$$$/\n" +
+                        " \\______/  \\______/  \\______/          \\______/  \\_______/|__/      |__/| $$____/    \\___/  \n" +
+                        "                                                                        | $$                \n" +
+                        "                                                                        | $$                \n" +
+                        "                                                                        |__/                \n" +
+                        "AUTHOR: " + CommonUtils.getProps("author") + "\n" +
+                        "VERSION: " + CommonUtils.getProps("version") + "\n" +
+                        "GITEE:\t" + CommonUtils.getProps("gitee") + "\n" +
+                        "GITHUB:\t" + CommonUtils.getProps("github") + "\n");
         CommonUtils.log("""
                  请输入执行程序：
                 （1）安装SGU-Script
@@ -180,9 +189,9 @@ public class CliApp {
                 （3）查看日志
                 （4）退出程序""");
         switch (CommonUtils.scannerOption(4)) {
-            case 1 -> mode = "install";
-            case 2 -> mode = "uninstall";
-            case 3 -> mode = "log";
+            case 1 -> controls = "install";
+            case 2 -> controls = "uninstall";
+            case 3 -> controls = "log";
             case 4 -> CommonUtils.exitCli();
         }
         chooseSystem();

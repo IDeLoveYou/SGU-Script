@@ -70,20 +70,19 @@ public class Openwrt implements BaseSystem {
      *
      * @param username [java.lang.String]
      * @param password [java.lang.String]
-     * @param ip       [java.lang.String]
      * @param mode     [java.lang.String]
      * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
      * @since 2022/10/12 21:30
      */
     @Override
-    public SimpleEntry<Boolean, String> install(String username, String password, String ip, String mode) {
+    public SimpleEntry<Boolean, String> install(String username, String password, String mode) {
         //删除旧脚本
         if (isInstall() && !uninstall().getKey()) {
             return new SimpleEntry<>(false, "旧脚本删除失败");
         }
         //上传脚本
-        if (!shellUtils.scpPutFile(FileUtils.writeSGUScript(username, password, ip, mode), "sgu_script", "/etc/init.d/", "0755")) {
+        if (!shellUtils.scpPutFile(FileUtils.writeSGUScript(username, password, mode), "sgu_script", "/etc/init.d/", "0755")) {
             return new SimpleEntry<>(false, "脚本上传失败");
         }
         //初始化执行命令链

@@ -40,13 +40,12 @@ public interface BaseSystem {
      *
      * @param username [java.lang.String]
      * @param password [java.lang.String]
-     * @param ip       [java.lang.String]
      * @param mode     [java.lang.String]
      * @return java.util.AbstractMap.SimpleEntry<java.lang.Boolean, java.lang.String>
      * @author MoNo
      * @since 2022/10/12 22:03
      */
-    SimpleEntry<Boolean, String> install(String username, String password, String ip, String mode);
+    SimpleEntry<Boolean, String> install(String username, String password, String mode);
 
     /**
      * 执行卸载命令
