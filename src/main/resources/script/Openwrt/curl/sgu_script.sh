@@ -70,20 +70,29 @@ login() {
 
 #夜间默认不重连
 night_net_reconnection=false
+is_invoke_flag=false
 #自动判断夜间是否有网络
 is_night_have_net() {
   time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8：50，time_now=850
   #网络结束供应时间过后1分钟
   net_check_time=$((net_end + 1 >= 2400 ? net_end + 1 - 2400 : net_end + 1))
   if [ "$time_now" -eq "$net_check_time" ]; then
-    #在断网时间内请求一下网络
-    if ping -c 5 www.baidu.com >/dev/null 2>&1; then
-      logger -t SGU-Script "断网时刻网络连接正常，开启夜间断网重连"
-      night_net_reconnection=true
-    else
-      logger -t SGU-Script "断网时刻网络连接失败，关闭夜间断网重连"
-      night_net_reconnection=false
+    #没有执行过本方法，则执行
+    if ! "$is_invoke_flag";then
+      #在断网时间内请求一下网络
+      if ping -c 5 www.baidu.com >/dev/null 2>&1; then
+        logger -t SGU-Script "断网时刻网络连接正常，开启夜间断网重连"
+        night_net_reconnection=true
+      else
+        logger -t SGU-Script "断网时刻网络连接失败，关闭夜间断网重连"
+        night_net_reconnection=false
+      fi
     fi
+    #设置为已执行
+    is_invoke_flag=true
+  else
+    #设置为未执行
+    is_invoke_flag=false
   fi
 }
 
