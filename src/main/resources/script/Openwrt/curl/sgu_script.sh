@@ -9,6 +9,8 @@ username={}
 password={}
 LOG_FILE=/var/log/sgu_script.log
 logger_interval=600 #这里是"网络连接正常"日志的间隔时间(每10分钟输出一次日志)
+net_start=600 #网络开始供应时间(6.00)
+net_end=2400 #网络结束供应时间(24.00)
 
 # 定义函数，提取两个字符串之间的值
 sub_between() {
@@ -66,6 +68,25 @@ login() {
   fi
 }
 
+#夜间默认不重连
+night_net_reconnection=false
+#自动判断夜间是否有网络
+is_night_have_net() {
+  time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8：50，time_now=850
+  #网络结束供应时间过后1分钟
+  net_check_time=$((net_end + 1 >= 2400 ? net_end + 1 - 2400 : net_end + 1))
+  if [ "$time_now" -eq "$net_check_time" ]; then
+    #在断网时间内请求一下网络
+    if ping -c 5 www.baidu.com >/dev/null 2>&1; then
+      echo "断网时刻网络连接正常，开启夜间断网重连"
+      night_net_reconnection=true
+    else
+      echo "断网时刻网络连接失败，关闭夜间断网重连"
+      night_net_reconnection=false
+    fi
+  fi
+}
+
 #清理日志
 clean_log() {
   time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8：50，time_now=850
@@ -110,16 +131,34 @@ logger_counter() {
 #脚本主函数
 main_script() {
   while true; do
+    #ua2f保活
     keep_alive
+    #清理日志
     clean_log
+    #自动判断夜间是否有网络
+    is_night_have_net
+    #判断是否夜间，夜间断网不执行脚本
+    WEEK_DAY=$(date +%w)
     time_now=$(date '+%H%M')
-    #韶院不断网，无需判断日期
-    login "$time_now" logger_counter
+    #获取星期，星期六日不断网
+    if [ "$WEEK_DAY" -eq 6 ] || [ "$WEEK_DAY" -eq 0 ]; then
+      login "$time_now" logger_counter
+    else
+      #工作日网络供应时间
+      if [ "$time_now" -ge "$net_start" ] && [ "$time_now" -le "$net_end" ]; then
+        login "$time_now" logger_counter
+      else
+        #是否开启夜间网络重连
+        if $night_net_reconnection;then
+          login "$time_now" logger_counter
+        fi
+      fi
+    fi
     sleep 1 #休息1s
   done
 }
 
-#同步时间成功之前调用
+#同步时间
 syn_time() {
   #循环直到联网成功
   while login "未知时间" true; do
@@ -130,7 +169,7 @@ syn_time() {
   logger -t SGU-Script "同步时间成功"
 }
 
-#登录函数
+#后台运行主函数
 reload() {
   #同步时间
   syn_time
