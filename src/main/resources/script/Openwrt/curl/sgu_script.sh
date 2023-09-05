@@ -78,10 +78,10 @@ is_night_have_net() {
   if [ "$time_now" -eq "$net_check_time" ]; then
     #在断网时间内请求一下网络
     if ping -c 5 www.baidu.com >/dev/null 2>&1; then
-      echo "断网时刻网络连接正常，开启夜间断网重连"
+      logger -t SGU-Script "断网时刻网络连接正常，开启夜间断网重连"
       night_net_reconnection=true
     else
-      echo "断网时刻网络连接失败，关闭夜间断网重连"
+      logger -t SGU-Script "断网时刻网络连接失败，关闭夜间断网重连"
       night_net_reconnection=false
     fi
   fi
