@@ -53,7 +53,7 @@ login() {
             sleep 60 #休息1分钟
           elif [ -n "$isProxies" ]; then
             log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
-            sleep 300 #休息5分钟
+            sleep 1800 #休息30分钟
           else
             log "$1" "$result"
             sleep 60 #休息1分钟
