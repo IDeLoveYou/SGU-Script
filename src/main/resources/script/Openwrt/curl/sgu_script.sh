@@ -41,7 +41,7 @@ login() {
           #是否是夜间禁止上网信息，或者账号未开通
           isILogin=$(echo "$result" | grep "在线")
           isNight=$(echo "$result" | grep "运营商用户认证失败")
-          isProxies=$(echo "$result" | grep "架设代理")
+          isProxies=$(echo "$result" | grep "代理")
           if [ -n "$isNight" ]; then
             log "$1" "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
             sleep 60 #休息1分钟
