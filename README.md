@@ -60,7 +60,7 @@
 
 *   cli版需要jdk17及以上
 
-*   gui版需要x86架构windows7及以上64位系统
+*   gui版需要x86 64-bit windows7及以上系统
 
 ***
 
@@ -246,9 +246,7 @@
 
 2.  后续脚本更新，只需重复以上操作，覆盖安装即可
 
-3.  提示：由于openjfx不支持32-bit以及arm64，所以请使用64-bit x86来使用gui版
-
-4.  提示：由于打包exe的jdk使用了甲骨文提供的64-bit x86 win版，所以请使用windows7以上系统
+3.  提示：由于打包使用的`openjfx`和`jdk`使用了x86 64-bit win，所以请使用x86 64-bit windows7及以上系统来使用gui版
 
     ![输入图片说明](https://foruda.gitee.com/images/1666349213094625473/7151cd0e_9532490.png "18-min.png")
 
