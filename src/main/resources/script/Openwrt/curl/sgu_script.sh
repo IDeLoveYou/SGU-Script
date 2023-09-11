@@ -9,13 +9,13 @@ username={}
 password={}
 LOG_FILE=/var/log/sgu_script.log
 logger_interval=600 #这里是"网络连接正常"日志的间隔时间(每10分钟输出一次日志)
-net_start=600 #网络开始供应时间(6.00)
-net_end=2400 #网络结束供应时间(24.00)
+net_start=600       #网络开始供应时间(6.00)
+net_end=2400        #网络结束供应时间(24.00)
 
 # 定义函数，提取两个字符串之间的值
 sub_between() {
-    tmp="${1#*"$2"}"
-    echo "${tmp%"$3"*}"
+  tmp="${1#*"$2"}"
+  echo "${tmp%"$3"*}"
 }
 
 #登录认证
@@ -39,21 +39,18 @@ login() {
         #不为认证成功有错误信息
         if [ "$result" != "认证成功" ]; then
           #是否是夜间禁止上网信息，或者账号未开通
-          isILogin=$(echo "$result" | grep "在线")
-          isNight=$(echo "$result" | grep "认证失败")
+          isLoginFailed=$(echo "$result" | grep "不正确")
+          isFailed=$(echo "$result" | grep "认证失败")
           isProxies=$(echo "$result" | grep "代理")
-          if [ -n "$isNight" ]; then
-            log "$1" "$result(可能原因有：夜间禁止上网信息，或者账号未开通)"
-            sleep 60 #休息1分钟
-          elif [ "$result" = "用户不存在,请输入正确的用户名!" ] || [ "$result" = "密码不匹配,请输入正确的密码!" ]; then
+          if [ -n "$isLoginFailed" ]; then
             log "$1" "$result(请重新使用正确的用户名和密码覆盖安装SGU-Script)"
             exit 1
-          elif [ -n "$isILogin" ]; then
-            log "$1" "$result(账号已经在线，请检查网络，若无网络，账号可能异地登录，请于自助中心下线设备并重启设备)"
-            sleep 60 #休息1分钟
+          elif [ -n "$isFailed" ]; then
+            log "$1" "$result(可能原因有：超时，夜间禁止上网，或者账号未开通)"
+            sleep 10 #休息10秒
           elif [ -n "$isProxies" ]; then
-            log "$1" "$result(可能原因有：使用代理软件，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
-            sleep 300 #休息5分钟
+            log "$1" "$result(可能原因有：使用代理软件、桥接热点，或者腾讯系软件/游戏的网络代理加速服务，请见[README]-[故障排除]-[第6条])"
+            sleep 600 #休息10分钟
           else
             log "$1" "$result"
             sleep 60 #休息1分钟
@@ -73,12 +70,12 @@ night_net_reconnection=false
 is_invoke_flag=false
 #自动判断夜间是否有网络
 is_night_have_net() {
-  time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8：50，time_now=850
-  #网络结束供应时间过后1分钟
-  net_check_time=$((net_end + 1 >= 2400 ? net_end + 1 - 2400 : net_end + 1))
+  time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8:50，time_now=850
+  #网络结束供应时间过后5分钟
+  net_check_time=$(date -d @$(($(date +%s) + 5 * 60)) '+%H%M')
   if [ "$time_now" -eq "$net_check_time" ]; then
     #没有执行过本方法，则执行
-    if ! "$is_invoke_flag";then
+    if ! "$is_invoke_flag"; then
       #在断网时间内请求一下网络
       if ping -c 5 www.baidu.com >/dev/null 2>&1; then
         logger -t SGU-Script "断网时刻网络连接正常，开启夜间断网重连"
@@ -98,11 +95,11 @@ is_night_have_net() {
 
 #清理日志
 clean_log() {
-  time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8：50，time_now=850
+  time_now=$(date '+%H%M') #获取当前时间，格式是时分，例如当前是上午8:50，time_now=850
   #凌晨清理日志
   if [ "$time_now" -eq 0000 ]; then
-    out_time=$(date '+%Y-%m-%d-%H:%M') #格式：2019-04-24-21:26
-    echo "$out_time:为了防止日志过长，定时清理日志信息" >$LOG_FILE
+    log_time=$(date '+%Y-%m-%d-%H:%M') #格式：2019-04-24-21:26
+    echo "$log_time:为了防止日志过长，定时清理日志信息" >$LOG_FILE
   fi
 }
 
@@ -147,19 +144,20 @@ main_script() {
     #自动判断夜间是否有网络
     is_night_have_net
     #判断是否夜间，夜间断网不执行脚本
-    WEEK_DAY=$(date +%w)
-    time_now=$(date '+%H%M')
+    WEEK_DAY=$(date +%w)               #格式：星期六 6
+    time_now=$(date '+%H%M')           #格式：2126
+    log_time=$(date '+%Y-%m-%d-%H:%M') #格式：2019-04-24-21:26
     #获取星期，星期六日不断网
     if [ "$WEEK_DAY" -eq 6 ] || [ "$WEEK_DAY" -eq 0 ]; then
-      login "$time_now" logger_counter
+      login "$log_time" logger_counter
     else
       #工作日网络供应时间
       if [ "$time_now" -ge "$net_start" ] && [ "$time_now" -le "$net_end" ]; then
-        login "$time_now" logger_counter
+        login "$log_time" logger_counter
       else
         #是否开启夜间网络重连
-        if $night_net_reconnection;then
-          login "$time_now" logger_counter
+        if $night_net_reconnection; then
+          login "$log_time" logger_counter
         fi
       fi
     fi
