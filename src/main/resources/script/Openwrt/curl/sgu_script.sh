@@ -28,11 +28,11 @@ login() {
   else
     time_count="$logger_interval" #网络出错立即输出日志
     #动态获取ip地址
-    redirect=$(curl -v -s http://1.1.1.1 2>&1)
+    redirect=$(curl -v -s http://2.2.2.2 2>&1)
     ip=$(sub_between "$redirect" "wlanuserip=" "&wlanacname")
     wlan=$(sub_between "$redirect" "wlanacname=" "&mac")
     #ip和wlan不为空则开始登录请求
-    if [ -n "$ip" ] || [ -n "$wlan" ]; then
+    if [ -n "$ip" ] && [ -n "$wlan" ]; then
       response=$(curl -s -X GET "http://172.16.253.121/quickauth.do?userid=$username&passwd=$password&wlanuserip=$ip&wlanacname=$wlan")
       if [ -n "$response" ]; then
         result=$(sub_between "$response" "message\":\"" "\",\"wlanacIp")
@@ -40,11 +40,15 @@ login() {
         if [ "$result" != "认证成功" ]; then
           #是否是夜间禁止上网信息，或者账号未开通
           isLoginFailed=$(echo "$result" | grep "不正确")
+          isLogined=$(echo "$result" | grep "已认证通过")
           isFailed=$(echo "$result" | grep "认证失败")
           isProxies=$(echo "$result" | grep "代理")
           if [ -n "$isLoginFailed" ]; then
             log "$1" "$result(请重新使用正确的用户名和密码覆盖安装SGU-Script)"
             exit 1
+          elif [ -n "$isLogined" ]; then
+            log "$1" "$result(账号已经登录或被别人登录，请使用已登录设备打开<http://2.2.2.2>进行断线操作)"
+            sleep 10 #休息10秒
           elif [ -n "$isFailed" ]; then
             log "$1" "$result(可能原因有：超时，夜间禁止上网，或者账号未开通)"
             sleep 10 #休息10秒
@@ -61,6 +65,8 @@ login() {
       else
         log "$1" "请检查网线是否插紧,或者[安装教程]-[路由器设置]步骤是否正确"
       fi
+    else
+      log "$1" "wlanuserip或wlanacname获取失败"
     fi
   fi
 }
